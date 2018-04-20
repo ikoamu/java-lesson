@@ -5,10 +5,10 @@ class Rectangle {
 	int height;
 	
 	Rectangle(){
-		setSize(10,20);
+		setSize(10,20); //コンストラクタ(引数なし)
 	}
 	Rectangle(int w,int h){
-		setSize(w,h);
+		setSize(w,h); //コンストラクタ（引数あり）
 	}
 	void setSize(int w,int h) {
 		width = w;
