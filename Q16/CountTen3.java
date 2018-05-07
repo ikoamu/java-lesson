@@ -18,6 +18,7 @@ package Q16;
  *       System.out.println("main:i = " + i);
  *     }
  *   }
+ *   
  *   @Override
  *   public void run(){
  *     for(int i = 0; i < 10; i++){
@@ -32,10 +33,12 @@ public class CountTen3 extends Thread {
     for(int i = 0; i < 3; i++) {
       new CountTen3().start();
     }
+    
     for(int i = 0; i < 10; i++) {
       System.out.println("main:i = " + i);
     }
   }
+  
   @Override
   public void run() {
     for(int i = 0; i < 10; i++ ) {
