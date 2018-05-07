@@ -92,4 +92,3 @@ class OneBank {
     System.out.println(Thread.currentThread() + "が addMoney から出ました。");
   }
 }
-  
