@@ -18,7 +18,7 @@ package Q16;
  *   pulic GoodBankTest(Good bank) {
  *     this.bank = bank;
  *   }
- *   `Override
+ *   @Override
  *   public void run() {
  *     while (true) {
  *       //100円預入
