@@ -32,11 +32,11 @@ package Q16;
 
 public class PrintHello3 {
   public static void main(String[] args) {
-    LabelPrinter th1 = new LabelPrinter("おはよう！");
-    LabelPrinter th2 = new LabelPrinter("こんにちは！");
-    LabelPrinter th3 = new LabelPrinter("こんばんは！");
-    th1.start();
-    th2.start();
-    th3.start();
+    LabelPrinter goodmorningPrinter = new LabelPrinter("おはよう！");
+    LabelPrinter goodafternoonPrinter = new LabelPrinter("こんにちは！");
+    LabelPrinter goodeveningPrinter = new LabelPrinter("こんばんは！");
+    goodmorningPrinter.start();
+    goodafternoonPrinter.start();
+    goodeveningPrinter.start();
   }
 }
