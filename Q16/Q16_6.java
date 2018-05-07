@@ -17,6 +17,7 @@ public class Q16_6 {
     new PrintEq().start();
   }
 }
+
 class PrintAsterisk extends Thread {
   @Override
   public void run() {
@@ -29,6 +30,7 @@ class PrintAsterisk extends Thread {
     }
   }
 }
+
 class PrintEq extends Thread {
   @Override
   public void run() {
