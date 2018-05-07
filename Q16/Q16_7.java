@@ -20,7 +20,7 @@ package Q16;
  *     for(int i = 0; i < 10; i++) {
  *       System.out.println("***");
  *       try {
- *         Thread.sleep(5000);
+ *         Thread.sleep(3000);
  *       }catch (InterruptedException e) {       
  *       }
  *     }
@@ -32,7 +32,7 @@ package Q16;
  *     for(int i = 0; i < 10; i++) {
  *       System.out.println("=====");
  *       try {
- *         Thread.sleep(10000);
+ *         Thread.sleep(5000);
  *       }catch (InterruptedException e) {       
  *       }
  *     }
@@ -43,12 +43,12 @@ package Q16;
 
 public class Q16_7 {
   public static void main(String[] args) {
-    PrintAsterisk2 p_as = new PrintAsterisk2();
-    PrintEq2 p_eq = new PrintEq2();
-    Thread t_as = new Thread(p_as);
-    Thread t_eq = new Thread(p_eq);
-    t_as.start();
-    t_eq.start();
+    PrintAsterisk2 printAsterisk = new PrintAsterisk2();
+    PrintEq2 printEq = new PrintEq2();
+    Thread threadAsterisk = new Thread(printAsterisk);
+    Thread threadEq = new Thread(printEq);
+    threadAsterisk.start();
+    threadEq.start();
   }
 }
 class PrintAsterisk2 implements Runnable {
@@ -57,7 +57,7 @@ class PrintAsterisk2 implements Runnable {
     for(int i = 0; i < 10; i++) {
       System.out.println("***");
       try {
-        Thread.sleep(5000);
+        Thread.sleep(3000);
       }catch (InterruptedException e) {       
       }
     }
@@ -69,7 +69,7 @@ class PrintEq2 implements Runnable {
     for(int i = 0; i < 10; i++) {
       System.out.println("=====");
       try {
-        Thread.sleep(10000);
+        Thread.sleep(5000);
       }catch (InterruptedException e) {       
       }
     }
