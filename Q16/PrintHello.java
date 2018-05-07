@@ -50,7 +50,7 @@ class LabelPrinter extends Thread {
     while (true) {
       System.out.println(label);
       try {
-      Thread.sleep(1000);
+        Thread.sleep(1000);
       }catch(InterruptedException e) {    
       }
     }
