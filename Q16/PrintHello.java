@@ -62,8 +62,3 @@ public class PrintHello {
     th.start();
   }
 }
-
-
-
-  
-  
