@@ -45,8 +45,8 @@ public class MultiThreadProgram {
   }
   
   public void workAllJobs() {
-    for(int i = 0; i < jobs.length; i++) {
-      jobs[i].start();
+    for(Job job : jobs) {
+      job.start();
     }
   }
   
