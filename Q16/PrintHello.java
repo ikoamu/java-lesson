@@ -16,6 +16,7 @@ package Q16;
  *   LabelPrinter(String label) {
  *     this.label = label;
  *   }
+ *   
  *   @Override
  *   public static void run() {
  *     while(true) {
@@ -45,6 +46,7 @@ class LabelPrinter extends Thread {
   LabelPrinter(String label) {
     this.label = label;
   }
+  
   @Override
   public void run() {
     while (true) {
@@ -56,6 +58,7 @@ class LabelPrinter extends Thread {
     }
   }
 }
+
 public class PrintHello {
   public static void main(String[] args) {
     LabelPrinter th = new LabelPrinter("こんにちは！");
