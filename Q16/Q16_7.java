@@ -51,6 +51,7 @@ public class Q16_7 {
     threadEq.start();
   }
 }
+
 class PrintAsterisk2 implements Runnable {
   @Override
   public void run() {
@@ -63,6 +64,7 @@ class PrintAsterisk2 implements Runnable {
     }
   }
 }
+
 class PrintEq2 implements Runnable {
   @Override
   public void run() {
