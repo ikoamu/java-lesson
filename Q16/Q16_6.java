@@ -23,7 +23,7 @@ class PrintAsterisk extends Thread {
     for(int i = 0; i < 10; i++) {
       System.out.println("***");
       try {
-        Thread.sleep(5000);
+        Thread.sleep(3000);
       }catch (InterruptedException e) {       
       }
     }
@@ -35,7 +35,7 @@ class PrintEq extends Thread {
     for(int i = 0; i < 10; i++) {
       System.out.println("=====");
       try {
-        Thread.sleep(10000);
+        Thread.sleep(5000);
       }catch (InterruptedException e) {       
       }
     }
