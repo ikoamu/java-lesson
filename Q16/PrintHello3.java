@@ -16,6 +16,7 @@ package Q16;
  *   LabelPrinter(String label) {
  *     this.label = label;
  *   }
+ *   
  *   @Override
  *   public void run() {
  *     while (true) {
