@@ -40,5 +40,3 @@ public class PrintHello3 {
     th3.start();
   }
 }
-
-
