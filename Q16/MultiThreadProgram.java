@@ -55,12 +55,14 @@ public class MultiThreadProgram {
     self.workAllJobs();
   }
 }
+
 class Job extends Thread {
   int jobnum;
   
   public Job(int jobnum) {
     this.jobnum = jobnum;
   }
+  
   @Override
   public void run() {
     System.out.println(Thread.currentThread().getName() + "--> job:" + jobnum );
