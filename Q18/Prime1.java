@@ -10,7 +10,7 @@ package Q18;
  * のように実行すると、prime.txtの内容はFig18-15のようになる予定です。
  * このプログラムを完成させてください。 
  * 
- * List18-19
+ * List18-9
  * public class Prime1 {
  *   public static void main (String[] args) {
  *     if (args.length != 1) {
