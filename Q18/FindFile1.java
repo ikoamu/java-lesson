@@ -28,9 +28,9 @@ public class FindFile1 {
     System.out.println("検索文字列は「" + findString + "」です");
     
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-      for (int linenum = 1; reader.readLine() != null; linenum++) {
-        String line = reader.readLine();
-        
+      String line;
+      
+      for (int linenum = 1; (line = reader.readLine()) != null; linenum++) {       
         if (line.indexOf(findString) >= 0) {
           System.out.println(linenum + " : " + line);
         }
