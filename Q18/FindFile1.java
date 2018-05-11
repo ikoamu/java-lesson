@@ -27,14 +27,12 @@ public class FindFile1 {
     
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
       String line;
-      int linenum = 0;
       
-      while ((line = reader.readLine()) != null) {
+      for (int linenum = 1; (line = reader.readLine()) != null; linenum++) {
         int n = line.indexOf(findString);
         
         if (n >= 0) {
           System.out.println(linenum + " : " + line);
-          linenum++;
         }
       }
     } catch (IOException e) {
