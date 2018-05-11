@@ -21,17 +21,17 @@ public class FindFile1 {
       System.exit(0);
     }
     
-    String findstring = args[0];
-    String filename = args[1];
-    System.out.println("検索文字列は「" + findstring + "」です");
+    String findString = args[0];
+    String fileName = args[1];
+    System.out.println("検索文字列は「" + findString + "」です");
     
     try {
-      BufferedReader reader = new BufferedReader(new FileReader(filename));
+      BufferedReader reader = new BufferedReader(new FileReader(fileName));
       String line;
       int linenum = 0;
       
       while ((line = reader.readLine()) != null) {
-        int n = line.indexOf(findstring);
+        int n = line.indexOf(findString);
         
         if (n >= 0) {
           System.out.println(linenum + " : " + line);
