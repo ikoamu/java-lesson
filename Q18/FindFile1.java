@@ -12,7 +12,9 @@ package Q18;
  * 
  */
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class FindFile1 {
   public static void main (String[] args) {
@@ -25,13 +27,11 @@ public class FindFile1 {
     String fileName = args[1];
     System.out.println("検索文字列は「" + findString + "」です");
     
+    String line;
+    
     try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
-      String line;
-      
       for (int linenum = 1; (line = reader.readLine()) != null; linenum++) {
-        int n = line.indexOf(findString);
-        
-        if (n >= 0) {
+        if (line.indexOf(findString) >= 0) {
           System.out.println(linenum + " : " + line);
         }
       }
