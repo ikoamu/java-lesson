@@ -20,7 +20,7 @@ public class FindFile1 {
   public static void main (String[] args) {
     if (args.length != 2) {
       System.out.println("使用法 : java FindFile1 検索文字列 検索対象ファイル");
-      System.exit(0);
+      System.exit(1);
     }
     
     String findString = args[0];
