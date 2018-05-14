@@ -13,6 +13,7 @@ package Q18;
  */
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
@@ -35,8 +36,12 @@ public class FindFile1 {
           System.out.println(linenum + " : " + line);
         }
       }
+    } catch (FileNotFoundException e) {
+      System.out.println(e);
+      System.exit(1);
     } catch (IOException e) {
       System.out.println(e);
+      System.exit(1);
     }
   }
 }
