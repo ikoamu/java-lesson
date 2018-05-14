@@ -37,7 +37,7 @@ public class FindFile1 {
         }
       }
     } catch (FileNotFoundException e) {
-      System.out.println(e);
+      System.out.println("ファイルが見つかりませんでした : " + fileName);
       System.exit(1);
     } catch (IOException e) {
       System.out.println(e);
