@@ -31,7 +31,7 @@ public class FindFile1 {
       String line;
       
       for (int linenum = 1; (line = reader.readLine()) != null; linenum++) {       
-        if (line.indexOf(findString) >= 0) {
+        if (line.contains(findString)) {
           System.out.println(linenum + " : " + line);
         }
       }
