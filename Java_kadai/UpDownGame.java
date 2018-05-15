@@ -209,29 +209,21 @@ public class UpDownGame {
    * @throws IOException : 整数以外の値を入力した場合
    */
   static boolean askContinue(int newBetG, BufferedReader input) throws IOException {
-    boolean again = false;
-    
     System.out.println("このまま続けますか？");
     System.out.println("現在の賞金 : " + newBetG);
     System.out.println("*******************");
-    System.out.print("いいえ[0] はい[1] : ");
-    
-    try {
-      int answer = Integer.parseInt(input.readLine());
+       
+    while(true) {
+      System.out.print("いいえ[0] はい[1] : ");
+      String answer = input.readLine();
       
-      if(answer == 1) {
-        again = true;  
-      } else if(answer == 0) {
-        again = false;
+      if("1".equals(answer)) {
+        return true;
+      } else if("0".equals(answer)) {
+        return false;
       } else {
-        System.out.println("!!0または1を入力してください。!!");
-        again = askContinue(newBetG, input);
+        System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
       }
-    } catch (NumberFormatException e) {
-      System.out.println("!!整数以外が入力されました。!!");
-      again = askContinue(newBetG, input);
     }
-
-    return again;
   }
 }
