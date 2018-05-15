@@ -134,65 +134,65 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; //はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber +"です");
     
-      while (true) {
-        try  {       
-          System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-          answer = Integer.parseInt(input.readLine()); // プレイヤーの回答
+    while (true) {
+      try  {       
+        System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+        answer = Integer.parseInt(input.readLine()); // プレイヤーの回答
    
-          if(answer == 0) { //プレイヤーはDOWNを選択
-            System.out.println("あなたの選択 -> DOWN[0]");
-            break;
-          } else if (answer == 1) { //プレイヤーはSAMEを選択
-            System.out.println("あなたの選択 -> SAME[1]");
-            break;
-          } else if (answer == 2) { //プレイヤーはUPを選択
-            System.out.println("あなたの選択 -> UP[2]");
-            break;
-          } else { //0,1,2以外を入力、もう一度入力させる
-            System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-          }
-        } catch (NumberFormatException e) {
-          System.out.println("!! 整数以外が入力されました。!!");
+        if(answer == 0) { //プレイヤーはDOWNを選択
+          System.out.println("あなたの選択 -> DOWN[0]");
+          break;
+        } else if (answer == 1) { //プレイヤーはSAMEを選択
+          System.out.println("あなたの選択 -> SAME[1]");
+          break;
+        } else if (answer == 2) { //プレイヤーはUPを選択
+          System.out.println("あなたの選択 -> UP[2]");
+          break;
+        } else { //0,1,2以外を入力、もう一度入力させる
           System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-        }
+        }       
+      } catch (NumberFormatException e) {
+        System.out.println("!! 整数以外が入力されました。!!");
+        System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       }
+    }
     
-      int secondNumber = random.nextInt(13) + 1;
-      System.out.println("-> 2回目の数字は" + secondNumber +"でした"); // 2回目の数字
-      int result = secondNumber - firstNumber; 
-      /* result > 0 : 結果はUP
-       * result == 0 : 結果はSAME
-       * result < 0 : 結果はDOWN
-       */
+    int secondNumber = random.nextInt(13) + 1;
+    System.out.println("-> 2回目の数字は" + secondNumber +"でした"); // 2回目の数字
+    int result = secondNumber - firstNumber; 
+    /* result > 0 : 結果はUP
+     * result == 0 : 結果はSAME
+     * result < 0 : 結果はDOWN
+     */
     
+    System.out.println("");
+    
+    if(result == 0 && answer == 1) { //SAMEで正解する
+      prize = bet * 5; 
+      System.out.println("結果 -> おめでとうございます　[SAME]");
+      
+    }else if(result > 0 && answer == 2) { //UPで正解する
+      prize = bet * 2;
+      System.out.println("結果 -> おめでとうございます　[UP]");
+      
+    }else if(result < 0 && answer == 0) {//DOWNで正解する
+      prize = bet * 2;
+      System.out.println("結果 -> おめでとうございます　[DOWN]");
+      
+    }else { //不正解
+      System.out.println("結果 -> 負け");
       System.out.println("");
+      return 0;
+    }
     
-      if(result == 0 && answer == 1) { //SAMEで正解する
-        prize = bet * 5; 
-        System.out.println("結果 -> おめでとうございます　[SAME]");
-      
-      }else if(result > 0 && answer == 2) { //UPで正解する
-        prize = bet * 2;
-        System.out.println("結果 -> おめでとうございます　[UP]");
-      
-      }else if(result < 0 && answer == 0) {//DOWNで正解する
-        prize = bet * 2;
-        System.out.println("結果 -> おめでとうございます　[DOWN]");
-      
-      }else { //不正解
-        System.out.println("結果 -> 負け");
-        System.out.println("");
-        return 0;
-      }
+    System.out.println("-> " + prize + "Gの勝ち");
     
-      System.out.println("-> " + prize + "Gの勝ち");
-    
-      /*賞金を全額ベットして続行するか、賞金を獲得するか選択*/
-      if(askContinue(prize,input) == true) {
-        System.out.println("*********************");
-        System.out.println("BET額" + prize + "Gで続行");
-        prize = playGame(prize, input);
-      } else {
+    /*賞金を全額ベットして続行するか、賞金を獲得するか選択*/
+    if(askContinue(prize,input) == true) {
+      System.out.println("*********************");
+      System.out.println("BET額" + prize + "Gで続行");
+      prize = playGame(prize, input);
+    } else {
       System.out.println("*********************");
       System.out.println("賞金" + prize + "Gを獲得");
     }
