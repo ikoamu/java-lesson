@@ -27,33 +27,32 @@ import java.io.IOException;
 import java.util.Random;
 
 public class UpDownGame {
-  private final static int GAMEOVER_G = 0; //ゲームオーバーになる金額
-  private final static int GAMECLEAR_G = 500000; //ゲームクリアになる金額
-  private final static int INITIAL_G = 100000; // 最初の所持金
+  private final static int GAMEOVER_GOLD = 0; //ゲームオーバーになる金額
+  private final static int GAMECLEAR_GOLD = 500_000; //ゲームクリアになる金額
+  private final static int INITIAL_GOLD = 100_000; // 最初の所持金
   
   public static void main(String[] args) {
-    int pocket = INITIAL_G; //プレイヤーの所持金を設定
+    int pocket = INITIAL_GOLD; //プレイヤーの所持金を設定
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
     
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))){
       while (true) {
-        GameClass game = new GameClass(); 
-        int betG = game.decideBetG(pocket,input); //ベット額を決める 
-        pocket -= betG; //所持金からベット額を没収
+        int betGold = decideBetGold(pocket,input); //ベット額を決める 
+        pocket -= betGold; //所持金からベット額を没収
         System.out.println("----------------------------");
-        System.out.println("ベット額 : " + betG + "G");
+        System.out.println("ベット額 : " + betGold + "G");
         System.out.println("現在の所持金 : " + pocket + "G");
         System.out.println("----------------------------");
       
-        pocket += game.getG(betG,input); //ゲームに勝った賞金がプラスされる(負けた場合は0)
+        pocket += playGame(betGold,input); //ゲームに勝った賞金がプラスされる(負けた場合は0)
           
-        if (pocket <= GAMEOVER_G) { //所持金がまだあるかのチェック
+        if (pocket <= GAMEOVER_GOLD) { //所持金がまだあるかのチェック
           System.out.println("++++++++++++++++++++++++++++");
           System.out.println("所持金がなくなりました。");
           break;
         }
       
-        if (GAMECLEAR_G <= pocket) { //目標金額に到達したかチェック
+        if (pocket >= GAMECLEAR_GOLD) { //目標金額に到達したかチェック
           System.out.println("++++++++++++++++++++++++++++");
           System.out.println("所持金が " + pocket + "Gになりました。");
           System.out.println("ゲームクリア");
@@ -71,10 +70,8 @@ public class UpDownGame {
     System.out.println("GAME OVER");
     System.out.println("++++++++++++++++++++++++++++"); 
   } 
-}
 
-class GameClass {
-  private final static int MAX_BET_G = 30000; //ベット額の上限
+  private final static int MAX_BET_G = 30_000; //ベット額の上限
   
   /**
    * ベット額を決めるメソッド
@@ -85,7 +82,7 @@ class GameClass {
    * @return bet : ベット額
    * @throws IOException : 整数以外の値を入力した場合
    */
-  int decideBetG(int pocket, BufferedReader input) throws IOException {
+  static int decideBetGold(int pocket, BufferedReader input) throws IOException {
     int bet = 0; 
  
     System.out.println("ベット額を入力してください。");
@@ -96,17 +93,17 @@ class GameClass {
       
       if(MAX_BET_G < bet) {
         System.out.println("!!" + MAX_BET_G +"G以下の金額を入力してください。!!");
-        bet = decideBetG(pocket, input);
+        bet = decideBetGold(pocket, input);
       }else if (pocket < bet) {
         System.out.println("!!ベット額が所持金を超えています。!!");
-        bet = decideBetG(pocket, input);
+        bet = decideBetGold(pocket, input);
       }else if (bet < 0) {
         System.out.println("!!ベット額がマイナスです。!!");
-        bet = decideBetG(pocket, input);
+        bet = decideBetGold(pocket, input);
       }
     }catch (NumberFormatException e) {
       System.out.println("!!整数以外が入力されました。!!");
-      bet = decideBetG(pocket, input);
+      bet = decideBetGold(pocket, input);
     }
       return bet; 
   }
@@ -129,7 +126,7 @@ class GameClass {
    * @return prize : 獲得賞金(不正解の場合は0)
    * @throws IOException : 整数以外の値を入力した場合
    */
-  int getG(int bet, BufferedReader input) throws IOException{ 
+  static int playGame(int bet, BufferedReader input) throws IOException{ 
     int prize = 0;
     int answer = 0;
  
@@ -137,7 +134,6 @@ class GameClass {
     int firstNumber = random.nextInt(13) + 1; //はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber +"です");
     
-
       while (true) {
         try  {       
           System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
@@ -195,7 +191,7 @@ class GameClass {
       if(askContinue(prize,input) == true) {
         System.out.println("*********************");
         System.out.println("BET額" + prize + "Gで続行");
-        prize = getG(prize, input);
+        prize = playGame(prize, input);
       } else {
       System.out.println("*********************");
       System.out.println("賞金" + prize + "Gを獲得");
@@ -214,7 +210,7 @@ class GameClass {
    * @return trueの場合はゲーム続行、falseの場合は再度賞金獲得
    * @throws IOException : 整数以外の値を入力した場合
    */
-  boolean askContinue(int newBetG, BufferedReader input) throws IOException {
+  static boolean askContinue(int newBetG, BufferedReader input) throws IOException {
     boolean again = false;
     
     System.out.println("このまま続けますか？");
