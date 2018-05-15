@@ -123,6 +123,17 @@ public class UpDownGame {
     }
   }
   
+  /**
+   * プレイヤーの回答を読み込むメソッドです。
+   * 
+   * プレイヤーは0,1,2のいずれかの数字を入力することでUP,DOWN,SAMEを選択します。
+   * UP = 2, DOWN = 0, SAME = 1
+   * 
+   * @param input
+   * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
+   * @throws IOException
+   */
+  
   static int selectAnswer(BufferedReader input) throws IOException{
     while (true) {       
         System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
@@ -145,11 +156,8 @@ public class UpDownGame {
   
   /**
    * はじめに1〜13までの数字をランダムに表示し、
-   * 次に表示される数字がはじめの数字より大きい(UP)か小さい(DOWN)か同じ(SAME)かを
-   * プレイヤーに選択させるメソッドです。
-   * 
-   * プレイヤーは0,1,2のいずれかの数字を入力することでUP,DOWN,SAMEを選択します。
-   * UP = 2, DOWN = 0, SAME = 1
+   * 次に表示される数字がはじめの数字より大きい(UP)か小さい(DOWN)か同じ(SAME)
+   * のいずれかを予想します。
    * 
    * 正解すると獲得した賞金がreturnされます。不正解の場合は0がreturnされます。
    * 
