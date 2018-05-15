@@ -55,7 +55,7 @@ public class UpDownGame {
     new UpDownGame(GAMEOVER_GOLD, GAMECLEAR_GOLD, INITIAL_GOLD, MAX_BET_GOLD).play();
   }
   
- void play() {
+  void play() {
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
     
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))){
@@ -106,9 +106,9 @@ public class UpDownGame {
       
     }while(! isValid(line));
  
-   int bet = Integer.parseInt(line);
+    int bet = Integer.parseInt(line);
   
-   return bet;  
+    return bet;  
   }
   
   /**
@@ -157,21 +157,21 @@ public class UpDownGame {
   
   private int selectAnswer(BufferedReader input) throws IOException{
     while (true) {       
-        System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-        String answer = input.readLine();
+      System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+      String answer = input.readLine();
    
-        if("0".equals(answer)) { //プレイヤーはDOWNを選択
-          System.out.println("あなたの選択 -> DOWN[0]");
-          return 0;
-        } else if ("1".equals(answer)) { //プレイヤーはSAMEを選択
-          System.out.println("あなたの選択 -> SAME[1]");
-          return 1;
-        } else if ("2".equals(answer)) { //プレイヤーはUPを選択
-          System.out.println("あなたの選択 -> UP[2]");
+      if("0".equals(answer)) { //プレイヤーはDOWNを選択
+        System.out.println("あなたの選択 -> DOWN[0]");
+        return 0;
+      } else if ("1".equals(answer)) { //プレイヤーはSAMEを選択
+        System.out.println("あなたの選択 -> SAME[1]");
+        return 1;
+      } else if ("2".equals(answer)) { //プレイヤーはUPを選択
+        System.out.println("あなたの選択 -> UP[2]");
           return 2;
-        } else { //0,1,2以外を入力、もう一度入力させる
-          System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-        }       
+      } else { //0,1,2以外を入力、もう一度入力させる
+        System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
+      }       
     }
   }
   
