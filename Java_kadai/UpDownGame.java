@@ -108,6 +108,26 @@ public class UpDownGame {
       return bet; 
   }
   
+  static int selectAnswer(BufferedReader input) throws IOException{
+    while (true) {       
+        System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+        String answer = input.readLine();
+   
+        if("0".equals(answer)) { //プレイヤーはDOWNを選択
+          System.out.println("あなたの選択 -> DOWN[0]");
+          return 0;
+        } else if ("1".equals(answer)) { //プレイヤーはSAMEを選択
+          System.out.println("あなたの選択 -> SAME[1]");
+          return 1;
+        } else if ("2".equals(answer)) { //プレイヤーはUPを選択
+          System.out.println("あなたの選択 -> UP[2]");
+          return 2;
+        } else { //0,1,2以外を入力、もう一度入力させる
+          System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
+        }       
+    }
+  }
+  
   /**
    * はじめに1〜13までの数字をランダムに表示し、
    * 次に表示される数字がはじめの数字より大きい(UP)か小さい(DOWN)か同じ(SAME)かを
@@ -127,35 +147,13 @@ public class UpDownGame {
    * @throws IOException : 整数以外の値を入力した場合
    */
   static int playGame(int bet, BufferedReader input) throws IOException{ 
-    int prize = 0;
-    int answer = 0;
+    int prize = 0; 
  
     Random random = new Random();
     int firstNumber = random.nextInt(13) + 1; //はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber +"です");
-    
-    while (true) {
-      try  {       
-        System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-        answer = Integer.parseInt(input.readLine()); // プレイヤーの回答
    
-        if(answer == 0) { //プレイヤーはDOWNを選択
-          System.out.println("あなたの選択 -> DOWN[0]");
-          break;
-        } else if (answer == 1) { //プレイヤーはSAMEを選択
-          System.out.println("あなたの選択 -> SAME[1]");
-          break;
-        } else if (answer == 2) { //プレイヤーはUPを選択
-          System.out.println("あなたの選択 -> UP[2]");
-          break;
-        } else { //0,1,2以外を入力、もう一度入力させる
-          System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-        }       
-      } catch (NumberFormatException e) {
-        System.out.println("!! 整数以外が入力されました。!!");
-        System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-      }
-    }
+    int answer = selectAnswer(input);
     
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber +"でした"); // 2回目の数字
