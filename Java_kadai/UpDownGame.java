@@ -65,11 +65,10 @@ public class UpDownGame {
     System.out.println("++++++++++++++++++++++++++++"); 
   } 
 
-  private final static int MAX_BET_G = 30_000; //ベット額の上限
+  private final static int MAX_BET_GOLD = 30_000; //ベット額の上限
   
   /**
    * ベット額を決めるメソッド
-   * 正しい値を入力するまでdecideBetGを再帰呼出し
    * 
    * @param pocket : 現在の所持金
    * @param input : コンソール入力用BufferedReader
@@ -77,29 +76,51 @@ public class UpDownGame {
    * @throws IOException : 整数以外の値を入力した場合
    */
   static int decideBetGold(int pocket, BufferedReader input) throws IOException {
-    int bet = 0; 
+    String line = null;
+    
+    do {
+      System.out.println("ベット額を入力してください。");
+      System.out.println("(1度にベットできるのは" + MAX_BET_GOLD +"Gまでです)");
+      line = input.readLine();
+      
+    }while(! isValid(pocket,line));
  
-    System.out.println("ベット額を入力してください。");
-    System.out.println("(1度にベットできるのは" + MAX_BET_G +"Gまでです)");
-      
+   int bet = Integer.parseInt(line);
+  
+   return bet;  
+  }
+  
+  /**
+   * 入力したベット額が正しいか確かめるメソッド
+   * 
+   * 正しいベッド額は
+   * 正の整数かつ、pocketとMAX_BET_GOLDよりも小さい値である
+   * 
+   * @param pocket : プレイヤーの所持金
+   * @param line : プレイヤーから入力された文字列
+   * @return : ベット額が正しければtrue、正しくなければfalse
+   */
+  
+  static boolean isValid(int pocket, String line) {
     try {
-      bet = Integer.parseInt(input.readLine());   
+      int bet = Integer.parseInt(line);   
       
-      if(MAX_BET_G < bet) {
-        System.out.println("!!" + MAX_BET_G +"G以下の金額を入力してください。!!");
-        bet = decideBetGold(pocket, input);
+      if(MAX_BET_GOLD < bet) {
+        System.out.println("!!" + MAX_BET_GOLD +"G以下の金額を入力してください。!!");
+        return false;
       }else if (pocket < bet) {
         System.out.println("!!ベット額が所持金を超えています。!!");
-        bet = decideBetGold(pocket, input);
+        return false;
       }else if (bet < 0) {
         System.out.println("!!ベット額がマイナスです。!!");
-        bet = decideBetGold(pocket, input);
+        return false;
+      }else {
+        return true;
       }
     }catch (NumberFormatException e) {
       System.out.println("!!整数以外が入力されました。!!");
-      bet = decideBetGold(pocket, input);
+      return false;
     }
-      return bet; 
   }
   
   static int selectAnswer(BufferedReader input) throws IOException{
