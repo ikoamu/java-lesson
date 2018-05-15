@@ -36,7 +36,7 @@ public class UpDownGame {
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
     
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))){
-      while (true) {
+      while (pocket > GAMEOVER_GOLD) {
         int betGold = decideBetGold(pocket,input); //ベット額を決める 
         pocket -= betGold; //所持金からベット額を没収
         System.out.println("----------------------------");
@@ -45,12 +45,6 @@ public class UpDownGame {
         System.out.println("----------------------------");
       
         pocket += playGame(betGold,input); //ゲームに勝った賞金がプラスされる(負けた場合は0)
-          
-        if (pocket <= GAMEOVER_GOLD) { //所持金がまだあるかのチェック
-          System.out.println("++++++++++++++++++++++++++++");
-          System.out.println("所持金がなくなりました。");
-          break;
-        }
       
         if (pocket >= GAMECLEAR_GOLD) { //目標金額に到達したかチェック
           System.out.println("++++++++++++++++++++++++++++");
