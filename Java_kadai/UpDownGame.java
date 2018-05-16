@@ -55,11 +55,32 @@ public class UpDownGame {
     new UpDownGame(GAMEOVER_GOLD, GAMECLEAR_GOLD, INITIAL_GOLD, MAX_BET_GOLD).play();
   }
 
+  /**
+   * ゲーム終了判定
+   * 
+   * @return trueの場合ゲーム終了、falseの場合ゲーム継続
+   */
+  private boolean isGameOver() {
+    if (pocket >= gameclearGold) {
+      System.out.println("所持金が" + gameclearGold + "Gに到達しました。");
+      System.out.println("ゲームクリア");
+      return true;
+    }
+
+    if (pocket <= gameoverGold) {
+      System.out.println("所持金が" + gameoverGold + "G以下になりました。");
+      System.out.println("ゲームオーバー");
+      return true;
+    }
+
+    return false;
+  }
+
   public void play() {
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
 
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
-      while (pocket > gameoverGold) {
+      while (!isGameOver()) {
         int betGold = decideBetGold(input); // ベット額を決める
         pocket -= betGold; // 所持金からベット額を没収
         System.out.println("----------------------------");
@@ -68,24 +89,12 @@ public class UpDownGame {
         System.out.println("----------------------------");
 
         pocket += deal(betGold, input); // ゲームに勝った賞金がプラスされる(負けた場合は0)
-
-        if (pocket >= gameclearGold) { // 目標金額に到達したかチェック
-          System.out.println("++++++++++++++++++++++++++++");
-          System.out.println("所持金が " + pocket + "Gになりました。");
-          System.out.println("ゲームクリア");
-          break;
-        }
-
         System.out.println("現在の所持金は" + pocket + "Gです。");
       }
     } catch (IOException e) {
       System.out.println(e);
       System.exit(1);
     }
-
-    System.out.println("++++++++++++++++++++++++++++");
-    System.out.println("GAME OVER");
-    System.out.println("++++++++++++++++++++++++++++");
   }
 
   /**
@@ -97,7 +106,7 @@ public class UpDownGame {
    *          : コンソール入力用BufferedReader
    * @return bet : ベット額
    * @throws IOException
-   *           : 整数以外の値を入力した場合
+   *           k* : 整数以外の値を入力した場合
    */
   private int decideBetGold(BufferedReader input) throws IOException {
     String line = null;
@@ -127,7 +136,6 @@ public class UpDownGame {
 
   private boolean isValid(String line) {
     if (line == null) {
-      System.out.println("nu");
       return false;
     }
 
