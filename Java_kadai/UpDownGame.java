@@ -60,7 +60,7 @@ public class UpDownGame {
    * 
    * @return trueの場合ゲーム終了、falseの場合ゲーム継続
    */
-  private boolean isGameOver() {
+  private boolean isFinish() {
     if (pocket >= gameclearGold) {
       System.out.println("所持金が" + gameclearGold + "Gに到達しました。");
       System.out.println("ゲームクリア");
@@ -80,7 +80,7 @@ public class UpDownGame {
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
 
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
-      while (!isGameOver()) {
+      while (!isFinish()) {
         int bet = decideBetGold(input); // ベット額を決める
         pocket -= bet; // 所持金からベット額を没収
         System.out.println("----------------------------");
