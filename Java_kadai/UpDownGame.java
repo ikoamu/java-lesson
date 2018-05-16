@@ -106,7 +106,7 @@ public class UpDownGame {
    *          : コンソール入力用BufferedReader
    * @return bet : ベット額
    * @throws IOException
-   *           k* : 整数以外の値を入力した場合
+   *           : 整数以外の値を入力した場合
    */
   private int decideBetGold(BufferedReader input) throws IOException {
     String line = null;
