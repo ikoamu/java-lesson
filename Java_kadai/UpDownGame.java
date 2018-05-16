@@ -32,10 +32,10 @@ public class UpDownGame {
   private final static int INITIAL_GOLD = 100_000; // 最初の所持金
   private final static int MAX_BET_GOLD = 30_000; // ベット額の上限
 
-  private int gameoverGold;
-  private int gameclearGold;
+  private final int gameoverGold;
+  private final int gameclearGold;
   private int pocket; // プレイヤーの所持金
-  private int maxBetGold;
+  private final int maxBetGold;
 
   public UpDownGame() {
     gameoverGold = GAMEOVER_GOLD;
