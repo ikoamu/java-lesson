@@ -102,12 +102,11 @@ public class UpDownGame {
   private int decideBetGold(BufferedReader input) throws IOException {
     String line = null;
 
-    do {
+    while (!isValid(line)) {
       System.out.println("ベット額を入力してください。");
       System.out.println("(1度にベットできるのは" + maxBetGold + "Gまでです)");
       line = input.readLine();
-
-    } while (!isValid(line));
+    }
 
     int bet = Integer.parseInt(line);
 
@@ -127,6 +126,11 @@ public class UpDownGame {
    */
 
   private boolean isValid(String line) {
+    if (line == null) {
+      System.out.println("nu");
+      return false;
+    }
+
     try {
       int bet = Integer.parseInt(line);
 
