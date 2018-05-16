@@ -55,27 +55,6 @@ public class UpDownGame {
     new UpDownGame(GAMEOVER_GOLD, GAMECLEAR_GOLD, INITIAL_GOLD, MAX_BET_GOLD).play();
   }
 
-  /**
-   * ゲーム終了判定
-   * 
-   * @return trueの場合ゲーム終了、falseの場合ゲーム継続
-   */
-  private boolean isFinish() {
-    if (pocket >= gameclearGold) {
-      System.out.println("所持金が" + gameclearGold + "Gに到達しました。");
-      System.out.println("ゲームクリア");
-      return true;
-    }
-
-    if (pocket <= gameoverGold) {
-      System.out.println("所持金が" + gameoverGold + "G以下になりました。");
-      System.out.println("ゲームオーバー");
-      return true;
-    }
-
-    return false;
-  }
-
   public void play() {
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
 
@@ -95,6 +74,27 @@ public class UpDownGame {
       System.out.println(e);
       System.exit(1);
     }
+  }
+
+  /**
+   * ゲーム終了判定
+   * 
+   * @return trueの場合ゲーム終了、falseの場合ゲーム継続
+   */
+  private boolean isFinish() {
+    if (pocket >= gameclearGold) {
+      System.out.println("所持金が" + gameclearGold + "Gに到達しました。");
+      System.out.println("ゲームクリア");
+      return true;
+    }
+
+    if (pocket <= gameoverGold) {
+      System.out.println("所持金が" + gameoverGold + "G以下になりました。");
+      System.out.println("ゲームオーバー");
+      return true;
+    }
+
+    return false;
   }
 
   /**
