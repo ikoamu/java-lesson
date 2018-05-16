@@ -55,7 +55,7 @@ public class UpDownGame {
     new UpDownGame(GAMEOVER_GOLD, GAMECLEAR_GOLD, INITIAL_GOLD, MAX_BET_GOLD).play();
   }
 
-  void play() {
+  public void play() {
     System.out.println("ゲームスタート（所持金 : " + pocket + "G");
 
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
