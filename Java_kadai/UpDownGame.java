@@ -119,7 +119,7 @@ public class UpDownGame {
       betgold = new BetGold(input.readLine(), maxBetGold, pocket);
     }
 
-    return betgold.bet;
+    return betgold.getBet();
   }
 
   /**
@@ -251,20 +251,20 @@ public class UpDownGame {
 }
 
 class BetGold {
-  int bet;
-  boolean isValid;
+  final private int bet;
+  private boolean isValid;
 
   public BetGold(String line, int maxBetGold, int pocket) {
+    int tmpBet = 0;
     try {
-      this.bet = Integer.parseInt(line);
-
-      if (maxBetGold < bet) {
+      tmpBet = Integer.parseInt(line);
+      if (maxBetGold < tmpBet) {
         System.out.println("!!" + maxBetGold + "G以下の金額を入力してください。!!");
         this.isValid = false;
-      } else if (pocket < bet) {
+      } else if (pocket < tmpBet) {
         System.out.println("!!ベット額が所持金を超えています。!!");
         this.isValid = false;
-      } else if (bet < 0) {
+      } else if (tmpBet < 0) {
         System.out.println("!!ベット額がマイナスです。!!");
         this.isValid = false;
       } else {
@@ -273,10 +273,16 @@ class BetGold {
     } catch (NumberFormatException e) {
       System.out.println("!!整数以外が入力されました。!!");
       this.isValid = false;
+    } finally {
+      bet = tmpBet;
     }
   }
 
-  boolean checkValidity() {
+  public int getBet() {
+    return bet;
+  }
+
+  public boolean checkValidity() {
     return isValid;
   }
 }
