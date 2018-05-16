@@ -67,7 +67,7 @@ public class UpDownGame {
         System.out.println("現在の所持金 : " + pocket + "G");
         System.out.println("----------------------------");
 
-        pocket += playGame(betGold, input); // ゲームに勝った賞金がプラスされる(負けた場合は0)
+        pocket += deal(betGold, input); // ゲームに勝った賞金がプラスされる(負けた場合は0)
 
         if (pocket >= gameclearGold) { // 目標金額に到達したかチェック
           System.out.println("++++++++++++++++++++++++++++");
@@ -194,7 +194,7 @@ public class UpDownGame {
    * @throws IOException
    *           : 整数以外の値を入力した場合
    */
-  private int playGame(int bet, BufferedReader input) throws IOException {
+  private int deal(int bet, BufferedReader input) throws IOException {
     int prize = 0;
 
     Random random = new Random();
@@ -236,7 +236,7 @@ public class UpDownGame {
     if (askContinue(prize, input) == true) {
       System.out.println("*********************");
       System.out.println("BET額" + prize + "Gで続行");
-      prize = playGame(prize, input);
+      prize = deal(prize, input);
     } else {
       System.out.println("*********************");
       System.out.println("賞金" + prize + "Gを獲得");
