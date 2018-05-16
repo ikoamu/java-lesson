@@ -133,15 +133,19 @@ public class UpDownGame {
       if (maxBetGold < bet) {
         System.out.println("!!" + maxBetGold + "G以下の金額を入力してください。!!");
         return false;
-      } else if (pocket < bet) {
+      }
+
+      if (pocket < bet) {
         System.out.println("!!ベット額が所持金を超えています。!!");
         return false;
-      } else if (bet < 0) {
+      }
+
+      if (bet < 0) {
         System.out.println("!!ベット額がマイナスです。!!");
         return false;
-      } else {
-        return true;
       }
+
+      return true;
     } catch (NumberFormatException e) {
       System.out.println("!!整数以外が入力されました。!!");
       return false;
