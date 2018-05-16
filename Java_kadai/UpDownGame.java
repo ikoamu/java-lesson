@@ -254,10 +254,10 @@ class BetGold {
   final private int bet;
   private boolean isValid;
 
-  public BetGold(String line, int maxBetGold, int pocket) {
+  public BetGold(String string, int maxBetGold, int pocket) {
     int tmpBet = 0;
     try {
-      tmpBet = Integer.parseInt(line);
+      tmpBet = Integer.parseInt(string);
       if (maxBetGold < tmpBet) {
         System.out.println("!!" + maxBetGold + "G以下の金額を入力してください。!!");
         this.isValid = false;
