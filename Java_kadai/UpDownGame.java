@@ -112,11 +112,11 @@ public class UpDownGame {
 
     System.out.println("ベット額を入力してください。");
     System.out.println("(1度にベットできるのは" + maxBetGold + "Gまでです)");
-    BetGoldClass betgold = new BetGoldClass(input.readLine(), maxBetGold, pocket);
+    BetGold betgold = new BetGold(input.readLine(), maxBetGold, pocket);
 
-    while (!betgold.isValid) {
+    while (!betgold.checkValidity()) {
       System.out.println("もう一度ベット額を入力してください。");
-      betgold = new BetGoldClass(input.readLine(), maxBetGold, pocket);
+      betgold = new BetGold(input.readLine(), maxBetGold, pocket);
     }
 
     return betgold.bet;
@@ -250,11 +250,11 @@ public class UpDownGame {
   }
 }
 
-class BetGoldClass {
+class BetGold {
   int bet;
   boolean isValid;
 
-  public BetGoldClass(String line, int maxBetGold, int pocket) {
+  public BetGold(String line, int maxBetGold, int pocket) {
     try {
       this.bet = Integer.parseInt(line);
 
@@ -274,5 +274,9 @@ class BetGoldClass {
       System.out.println("!!整数以外が入力されました。!!");
       this.isValid = false;
     }
+  }
+
+  boolean checkValidity() {
+    return isValid;
   }
 }
