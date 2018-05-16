@@ -35,7 +35,6 @@ public class UpDownGame {
   private final int gameoverGold;
   private final int gameclearGold;
   private int pocket; // プレイヤーの所持金
-  private int bet; // ベット額
   private final int maxBetGold;
 
   public UpDownGame() {
@@ -82,7 +81,7 @@ public class UpDownGame {
 
     try (BufferedReader input = new BufferedReader(new InputStreamReader(System.in))) {
       while (!isGameOver()) {
-        decideBetGold(input); // ベット額を決める
+        int bet = decideBetGold(input); // ベット額を決める
         pocket -= bet; // 所持金からベット額を没収
         System.out.println("----------------------------");
         System.out.println("ベット額 : " + bet + "G");
@@ -109,56 +108,18 @@ public class UpDownGame {
    * @throws IOException
    *           : 整数以外の値を入力した場合
    */
-  private void decideBetGold(BufferedReader input) throws IOException {
-    String line = null;
+  private int decideBetGold(BufferedReader input) throws IOException {
 
-    while (!isValid(line)) {
-      System.out.println("ベット額を入力してください。");
-      System.out.println("(1度にベットできるのは" + maxBetGold + "Gまでです)");
-      line = input.readLine();
-    }
-  }
+    System.out.println("ベット額を入力してください。");
+    System.out.println("(1度にベットできるのは" + maxBetGold + "Gまでです)");
+    BetGoldClass betgold = new BetGoldClass(input.readLine(), maxBetGold, pocket);
 
-  /**
-   * 入力したベット額が正しいか確かめ、ベット額を設定するメソッド
-   * 
-   * 正しいベッド額は 正の整数かつ、pocketとMAX_BET_GOLDよりも小さい値である
-   * 
-   * @param pocket
-   *          : プレイヤーの所持金
-   * @param line
-   *          : プレイヤーから入力された文字列
-   * @return : ベット額が正しければtrue、正しくなければfalse
-   */
-
-  private boolean isValid(String line) {
-    if (line == null) {
-      return false;
+    while (!betgold.isValid) {
+      System.out.println("もう一度ベット額を入力してください。");
+      betgold = new BetGoldClass(input.readLine(), maxBetGold, pocket);
     }
 
-    try {
-      bet = Integer.parseInt(line);
-
-      if (maxBetGold < bet) {
-        System.out.println("!!" + maxBetGold + "G以下の金額を入力してください。!!");
-        return false;
-      }
-
-      if (pocket < bet) {
-        System.out.println("!!ベット額が所持金を超えています。!!");
-        return false;
-      }
-
-      if (bet < 0) {
-        System.out.println("!!ベット額がマイナスです。!!");
-        return false;
-      }
-
-      return true;
-    } catch (NumberFormatException e) {
-      System.out.println("!!整数以外が入力されました。!!");
-      return false;
-    }
+    return betgold.bet;
   }
 
   /**
@@ -170,7 +131,6 @@ public class UpDownGame {
    * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
    * @throws IOException
    */
-
   private int selectAnswer(BufferedReader input) throws IOException {
     while (true) {
       System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
@@ -286,6 +246,33 @@ public class UpDownGame {
       } else {
         System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
       }
+    }
+  }
+}
+
+class BetGoldClass {
+  int bet;
+  boolean isValid;
+
+  public BetGoldClass(String line, int maxBetGold, int pocket) {
+    try {
+      this.bet = Integer.parseInt(line);
+
+      if (maxBetGold < bet) {
+        System.out.println("!!" + maxBetGold + "G以下の金額を入力してください。!!");
+        this.isValid = false;
+      } else if (pocket < bet) {
+        System.out.println("!!ベット額が所持金を超えています。!!");
+        this.isValid = false;
+      } else if (bet < 0) {
+        System.out.println("!!ベット額がマイナスです。!!");
+        this.isValid = false;
+      } else {
+        this.isValid = true;
+      }
+    } catch (NumberFormatException e) {
+      System.out.println("!!整数以外が入力されました。!!");
+      this.isValid = false;
     }
   }
 }
