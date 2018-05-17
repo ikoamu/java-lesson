@@ -131,10 +131,10 @@ public class UpDownGame {
    * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
    * @throws IOException
    */
-  private EnumAnswer selectAnswer(BufferedReader input) throws IOException {
+  private AnswerChoices selectAnswer(BufferedReader input) throws IOException {
     System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
     String stringAnswer = input.readLine();
-    EnumAnswer enumAnswer;
+    AnswerChoices answerChoice;
 
     while (!isValidAnswer(stringAnswer)) {
       System.out.println("もう一度入力してください。");
@@ -143,14 +143,14 @@ public class UpDownGame {
     }
 
     if ("0".equals(stringAnswer)) { // プレイヤーはDOWNを選択
-      enumAnswer = EnumAnswer.DOWN;
+      answerChoice = AnswerChoices.DOWN;
     } else if ("1".equals(stringAnswer)) { // プレイヤーはSAMEを選択
-      enumAnswer = EnumAnswer.SAME;
+      answerChoice = AnswerChoices.SAME;
     } else {// プレイヤーはUPを選択
-      enumAnswer = EnumAnswer.UP;
+      answerChoice = AnswerChoices.UP;
     }
 
-    return enumAnswer;
+    return answerChoice;
   }
 
   private boolean isValidAnswer(String answer) {
@@ -174,7 +174,7 @@ public class UpDownGame {
 
   }
 
-  private enum EnumAnswer {
+  private enum AnswerChoices {
     DOWN, SAME, UP;
   }
 
@@ -201,7 +201,7 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    EnumAnswer answer = selectAnswer(input);
+    AnswerChoices answer = selectAnswer(input);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
@@ -212,15 +212,15 @@ public class UpDownGame {
 
     System.out.println("");
 
-    if (result == 0 && answer == EnumAnswer.SAME) { // SAMEで正解する
+    if (result == 0 && answer == AnswerChoices.SAME) { // SAMEで正解する
       prize = bet * 5;
       System.out.println("結果 -> おめでとうございます　[SAME]");
 
-    } else if (result > 0 && answer == EnumAnswer.UP) { // UPで正解する
+    } else if (result > 0 && answer == AnswerChoices.UP) { // UPで正解する
       prize = bet * 2;
       System.out.println("結果 -> おめでとうございます　[UP]");
 
-    } else if (result < 0 && answer == EnumAnswer.DOWN) {// DOWNで正解する
+    } else if (result < 0 && answer == AnswerChoices.DOWN) {// DOWNで正解する
       prize = bet * 2;
       System.out.println("結果 -> おめでとうございます　[DOWN]");
 
@@ -281,7 +281,7 @@ public class UpDownGame {
     if ("1".equals(reply) || "0".equals(reply)) {
       return true;
     }
-    
+
     System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
     return false;
   }
