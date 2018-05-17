@@ -131,24 +131,51 @@ public class UpDownGame {
    * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
    * @throws IOException
    */
-  private int selectAnswer(BufferedReader input) throws IOException {
-    while (true) {
-      System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-      String answer = input.readLine();
+  private EnumAnswer selectAnswer(BufferedReader input) throws IOException {
+    System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+    String stringAnswer = input.readLine();
+    EnumAnswer enumAnswer;
 
-      if ("0".equals(answer)) { // プレイヤーはDOWNを選択
-        System.out.println("あなたの選択 -> DOWN[0]");
-        return 0;
-      } else if ("1".equals(answer)) { // プレイヤーはSAMEを選択
-        System.out.println("あなたの選択 -> SAME[1]");
-        return 1;
-      } else if ("2".equals(answer)) { // プレイヤーはUPを選択
-        System.out.println("あなたの選択 -> UP[2]");
-        return 2;
-      } else { // 0,1,2以外を入力、もう一度入力させる
-        System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-      }
+    while (!isValidAnswer(stringAnswer)) {
+      System.out.println("もう一度入力してください。");
+      System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+      stringAnswer = input.readLine();
     }
+
+    if ("0".equals(stringAnswer)) { // プレイヤーはDOWNを選択
+      enumAnswer = EnumAnswer.DOWN;
+    } else if ("1".equals(stringAnswer)) { // プレイヤーはSAMEを選択
+      enumAnswer = EnumAnswer.SAME;
+    } else {// プレイヤーはUPを選択
+      enumAnswer = EnumAnswer.UP;
+    }
+
+    return enumAnswer;
+  }
+
+  private boolean isValidAnswer(String answer) {
+    if ("0".equals(answer)) { // プレイヤーはDOWNを選択
+      System.out.println("あなたの選択 -> DOWN[0]");
+      return true;
+    }
+
+    if ("1".equals(answer)) { // プレイヤーはSAMEを選択
+      System.out.println("あなたの選択 -> SAME[1]");
+      return true;
+    }
+
+    if ("2".equals(answer)) { // プレイヤーはUPを選択
+      System.out.println("あなたの選択 -> UP[2]");
+      return true;
+    }
+
+    System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
+    return false;
+
+  }
+
+  private enum EnumAnswer {
+    DOWN, SAME, UP;
   }
 
   /**
@@ -174,7 +201,7 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    int answer = selectAnswer(input);
+    EnumAnswer answer = selectAnswer(input);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
@@ -185,15 +212,15 @@ public class UpDownGame {
 
     System.out.println("");
 
-    if (result == 0 && answer == 1) { // SAMEで正解する
+    if (result == 0 && answer == EnumAnswer.SAME) { // SAMEで正解する
       prize = bet * 5;
       System.out.println("結果 -> おめでとうございます　[SAME]");
 
-    } else if (result > 0 && answer == 2) { // UPで正解する
+    } else if (result > 0 && answer == EnumAnswer.UP) { // UPで正解する
       prize = bet * 2;
       System.out.println("結果 -> おめでとうございます　[UP]");
 
-    } else if (result < 0 && answer == 0) {// DOWNで正解する
+    } else if (result < 0 && answer == EnumAnswer.DOWN) {// DOWNで正解する
       prize = bet * 2;
       System.out.println("結果 -> おめでとうございます　[DOWN]");
 
@@ -234,19 +261,28 @@ public class UpDownGame {
     System.out.println("このまま続けますか？");
     System.out.println("現在の賞金 : " + newBetG);
     System.out.println("*******************");
+    System.out.print("いいえ[0] はい[1] : ");
+    String reply = input.readLine();
 
-    while (true) {
+    while (!isValidReply(reply)) {
+      System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
       System.out.print("いいえ[0] はい[1] : ");
-      String answer = input.readLine();
-
-      if ("1".equals(answer)) {
-        return true;
-      } else if ("0".equals(answer)) {
-        return false;
-      } else {
-        System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
-      }
+      reply = input.readLine();
     }
+
+    if ("1".equals(reply)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  private boolean isValidReply(String reply) {
+    if ("1".equals(reply) || "0".equals(reply)) {
+      return true;
+    }
+
+    return false;
   }
 }
 
