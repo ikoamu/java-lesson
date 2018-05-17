@@ -265,7 +265,7 @@ public class UpDownGame {
     String reply = input.readLine();
 
     while (!isValidReply(reply)) {
-      System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
+      System.out.println("もう一度入力してください。");
       System.out.print("いいえ[0] はい[1] : ");
       reply = input.readLine();
     }
@@ -281,7 +281,8 @@ public class UpDownGame {
     if ("1".equals(reply) || "0".equals(reply)) {
       return true;
     }
-
+    
+    System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
     return false;
   }
 }
