@@ -131,7 +131,7 @@ public class UpDownGame {
    * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
    * @throws IOException
    */
-  private Answers selectAnswer(BufferedReader input) throws IOException {
+  private ForecastAnswer selectAnswer(BufferedReader input) throws IOException {
     System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
     String stringAnswer = input.readLine();
 
@@ -141,7 +141,7 @@ public class UpDownGame {
       stringAnswer = input.readLine();
     }
 
-    return Answers.judgeAnswer(stringAnswer);
+    return ForecastAnswer.judgeAnswer(stringAnswer);
   }
 
   private boolean isValidAnswer(String answer) {
@@ -165,7 +165,7 @@ public class UpDownGame {
 
   }
 
-  private enum Answers {
+  private enum ForecastAnswer {
     DOWN {
       @Override
       int checkAnswer(int bet, int result) {
@@ -206,16 +206,16 @@ public class UpDownGame {
 
     abstract int checkAnswer(int bet, int result);
 
-    static Answers judgeAnswer(String s) {
+    static ForecastAnswer judgeAnswer(String s) {
       if ("0".equals(s)) {
-        return Answers.DOWN;
+        return ForecastAnswer.DOWN;
       }
 
       if ("1".equals(s)) {
-        return Answers.SAME;
+        return ForecastAnswer.SAME;
       }
 
-      return Answers.UP;
+      return ForecastAnswer.UP;
     }
   }
 
@@ -240,7 +240,7 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    Answers answer = selectAnswer(input);
+    ForecastAnswer answer = selectAnswer(input);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
