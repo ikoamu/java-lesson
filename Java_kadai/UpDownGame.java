@@ -36,7 +36,6 @@ public class UpDownGame {
   private final int gameclearGold;
   private int pocket; // プレイヤーの所持金
   private final int maxBetGold;
-  public String answerNuber;
 
   public UpDownGame() {
     gameoverGold = GAMEOVER_GOLD;
