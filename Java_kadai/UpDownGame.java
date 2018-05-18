@@ -36,6 +36,7 @@ public class UpDownGame {
   private final int gameclearGold;
   private int pocket; // プレイヤーの所持金
   private final int maxBetGold;
+  public String answerNuber;
 
   public UpDownGame() {
     gameoverGold = GAMEOVER_GOLD;
@@ -131,10 +132,9 @@ public class UpDownGame {
    * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
    * @throws IOException
    */
-  private AnswerChoices selectAnswer(BufferedReader input) throws IOException {
+  private Answers selectAnswer(BufferedReader input) throws IOException {
     System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
     String stringAnswer = input.readLine();
-    AnswerChoices answerChoice;
 
     while (!isValidAnswer(stringAnswer)) {
       System.out.println("もう一度入力してください。");
@@ -142,15 +142,7 @@ public class UpDownGame {
       stringAnswer = input.readLine();
     }
 
-    if ("0".equals(stringAnswer)) { // プレイヤーはDOWNを選択
-      answerChoice = AnswerChoices.DOWN;
-    } else if ("1".equals(stringAnswer)) { // プレイヤーはSAMEを選択
-      answerChoice = AnswerChoices.SAME;
-    } else {// プレイヤーはUPを選択
-      answerChoice = AnswerChoices.UP;
-    }
-
-    return answerChoice;
+    return Answers.judgeAnswer(stringAnswer);
   }
 
   private boolean isValidAnswer(String answer) {
@@ -174,8 +166,58 @@ public class UpDownGame {
 
   }
 
-  private enum AnswerChoices {
-    DOWN, SAME, UP;
+  private enum Answers {
+    DOWN {
+      @Override
+      int checkAnswer(int bet, int result) {
+        if (result < 0) {
+          System.out.println("-> おめでとうございます。 [DOWN]");
+          return bet * 2;
+        }
+
+        System.out.println("-> まけ");
+        return 0;
+      }
+    },
+
+    SAME {
+      @Override
+      int checkAnswer(int bet, int result) {
+        if (result == 0) {
+          return bet * 5;
+        }
+
+        System.out.println("-> まけ");
+        return 0;
+      }
+    },
+
+    UP {
+      @Override
+      int checkAnswer(int bet, int result) {
+        if (result > 0) {
+          System.out.println("-> おめでとうございます。 [UP]");
+          return bet * 2;
+        }
+
+        System.out.println("-> まけ");
+        return 0;
+      }
+    };
+
+    abstract int checkAnswer(int bet, int result);
+
+    static Answers judgeAnswer(String s) {
+      if ("0".equals(s)) {
+        return Answers.DOWN;
+      }
+
+      if ("1".equals(s)) {
+        return Answers.SAME;
+      }
+
+      return Answers.UP;
+    }
   }
 
   /**
@@ -195,13 +237,11 @@ public class UpDownGame {
    *           : 整数以外の値を入力した場合
    */
   private int deal(int bet, BufferedReader input) throws IOException {
-    int prize = 0;
-
     Random random = new Random();
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    AnswerChoices answer = selectAnswer(input);
+    Answers answer = selectAnswer(input);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
@@ -211,35 +251,19 @@ public class UpDownGame {
      */
 
     System.out.println("");
+    int prize = answer.checkAnswer(bet, result);
 
-    if (result == 0 && answer == AnswerChoices.SAME) { // SAMEで正解する
-      prize = bet * 5;
-      System.out.println("結果 -> おめでとうございます　[SAME]");
-
-    } else if (result > 0 && answer == AnswerChoices.UP) { // UPで正解する
-      prize = bet * 2;
-      System.out.println("結果 -> おめでとうございます　[UP]");
-
-    } else if (result < 0 && answer == AnswerChoices.DOWN) {// DOWNで正解する
-      prize = bet * 2;
-      System.out.println("結果 -> おめでとうございます　[DOWN]");
-
-    } else { // 不正解
-      System.out.println("結果 -> 負け");
-      System.out.println("");
-      return 0;
-    }
-
-    System.out.println("-> " + prize + "Gの勝ち");
-
-    /* 賞金を全額ベットして続行するか、賞金を獲得するか選択 */
-    if (askContinue(prize, input) == true) {
-      System.out.println("*********************");
-      System.out.println("BET額" + prize + "Gで続行");
-      prize = deal(prize, input);
-    } else {
-      System.out.println("*********************");
-      System.out.println("賞金" + prize + "Gを獲得");
+    if (prize != 0) {
+      System.out.println("-> " + prize + "Gの勝ち");
+      /* 賞金を全額ベットして続行するか、賞金を獲得するか選択 */
+      if (askContinue(prize, input) == true) {
+        System.out.println("*********************");
+        System.out.println("BET額" + prize + "Gで続行");
+        prize = deal(prize, input);
+      } else {
+        System.out.println("*********************");
+        System.out.println("賞金" + prize + "Gを獲得");
+      }
     }
 
     return prize;
