@@ -123,7 +123,7 @@ public class UpDownGame {
   }
 
   private enum Forecast {
-    DOWN {
+    DOWN("0") {
       @Override
       int checkAnswer(int bet, int result) {
         if (result < 0) {
@@ -136,7 +136,7 @@ public class UpDownGame {
       }
     },
 
-    SAME {
+    SAME("1") {
       @Override
       int checkAnswer(int bet, int result) {
         if (result == 0) {
@@ -148,7 +148,7 @@ public class UpDownGame {
       }
     },
 
-    UP {
+    UP("2") {
       @Override
       int checkAnswer(int bet, int result) {
         if (result > 0) {
@@ -163,40 +163,37 @@ public class UpDownGame {
 
     abstract int checkAnswer(int bet, int result);
 
-    static Forecast from(BufferedReader input) throws IOException {
-      System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-      String string = input.readLine();
+    private final String number;
 
-      while (!isValidAnswer(string)) {
-        System.out.println("もう一度入力してください。");
-        System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-        string = input.readLine();
-      }
+    private Forecast(final String number) {
+      this.number = number;
+    }
 
-      if ("0".equals(string)) {
+    static Forecast from(String string) {
+      if (Forecast.DOWN.number.equals(string)) { // プレイヤーはDOWNを選択
+        System.out.println("あなたの選択 -> DOWN[0]");
         return Forecast.DOWN;
       }
 
-      if ("1".equals(string)) {
+      if (Forecast.SAME.number.equals(string)) {
+        System.out.println("あなたの選択 -> SAME[1]");
         return Forecast.SAME;
       }
 
+      System.out.println("あなたの選択 -> UP[2]");
       return Forecast.UP;
     }
 
-    static private boolean isValidAnswer(String answer) {
-      if ("0".equals(answer)) { // プレイヤーはDOWNを選択
-        System.out.println("あなたの選択 -> DOWN[0]");
+    private static boolean isValidAnswer(String answer) {
+      if (Forecast.DOWN.number.equals(answer)) { // プレイヤーはDOWNを選択
         return true;
       }
 
-      if ("1".equals(answer)) { // プレイヤーはSAMEを選択
-        System.out.println("あなたの選択 -> SAME[1]");
+      if (Forecast.SAME.number.equals(answer)) { // プレイヤーはSAMEを選択
         return true;
       }
 
-      if ("2".equals(answer)) { // プレイヤーはUPを選択
-        System.out.println("あなたの選択 -> UP[2]");
+      if (Forecast.UP.number.equals(answer)) { // プレイヤーはUPを選択
         return true;
       }
 
@@ -210,7 +207,16 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    Forecast answer = Forecast.from(input);
+    System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
+    String string = input.readLine();
+
+    while (!Forecast.isValidAnswer(string)) {
+      System.out.println("もう一度入力してください。");
+      System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
+      string = input.readLine();
+    }
+
+    Forecast answer = Forecast.from(string);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
@@ -218,8 +224,6 @@ public class UpDownGame {
     /*
      * result > 0 : 結果はUP result == 0 : 結果はSAME result < 0 : 結果はDOWN
      */
-
-    System.out.println("");
     int prize = answer.checkAnswer(bet, result);
 
     if (prize != 0) {
