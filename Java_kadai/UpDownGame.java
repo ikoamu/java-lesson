@@ -188,23 +188,11 @@ public class UpDownGame {
         return Forecast.SAME;
       }
 
-      return Forecast.UP;
-    }
-
-    private static boolean isValidAnswer(String answer) {
-      if (Forecast.DOWN.number.equals(answer)) { // プレイヤーはDOWNを選択
-        return true;
+      if (Forecast.UP.number.equals(string)) {
+        return Forecast.UP;
       }
 
-      if (Forecast.SAME.number.equals(answer)) { // プレイヤーはSAMEを選択
-        return true;
-      }
-
-      if (Forecast.UP.number.equals(answer)) { // プレイヤーはUPを選択
-        return true;
-      }
-
-      return false;
+      return null;
     }
   }
 
@@ -215,15 +203,16 @@ public class UpDownGame {
 
     System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
     String string = input.readLine();
+    Forecast answer = Forecast.from(string);
 
-    while (!Forecast.isValidAnswer(string)) {
+    while (answer == null) {
       System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       System.out.println("もう一度入力してください。");
       System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
       string = input.readLine();
+      answer = Forecast.from(string);
     }
 
-    Forecast answer = Forecast.from(string);
     System.out.println("あなたの選択 : " + answer);
 
     int secondNumber = random.nextInt(13) + 1;
