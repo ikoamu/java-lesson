@@ -122,49 +122,6 @@ public class UpDownGame {
     return betgold.getBet();
   }
 
-  /**
-   * プレイヤーの回答を読み込むメソッドです。
-   * 
-   * プレイヤーは0,1,2のいずれかの数字を入力することでUP,DOWN,SAMEを選択します。 UP = 2, DOWN = 0, SAME = 1
-   * 
-   * @param input
-   * @return プレイヤーの回答 : UP = 2, DOWN = 0, SAME = 1
-   * @throws IOException
-   */
-  private Forecast selectAnswer(BufferedReader input) throws IOException {
-    System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-    String stringAnswer = input.readLine();
-
-    while (!isValidAnswer(stringAnswer)) {
-      System.out.println("もう一度入力してください。");
-      System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
-      stringAnswer = input.readLine();
-    }
-
-    return Forecast.judgeAnswer(stringAnswer);
-  }
-
-  private boolean isValidAnswer(String answer) {
-    if ("0".equals(answer)) { // プレイヤーはDOWNを選択
-      System.out.println("あなたの選択 -> DOWN[0]");
-      return true;
-    }
-
-    if ("1".equals(answer)) { // プレイヤーはSAMEを選択
-      System.out.println("あなたの選択 -> SAME[1]");
-      return true;
-    }
-
-    if ("2".equals(answer)) { // プレイヤーはUPを選択
-      System.out.println("あなたの選択 -> UP[2]");
-      return true;
-    }
-
-    System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
-    return false;
-
-  }
-
   private enum Forecast {
     DOWN {
       @Override
@@ -206,41 +163,54 @@ public class UpDownGame {
 
     abstract int checkAnswer(int bet, int result);
 
-    static Forecast judgeAnswer(String s) {
-      if ("0".equals(s)) {
+    static Forecast from(BufferedReader input) throws IOException {
+      System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+      String string = input.readLine();
+
+      while (!isValidAnswer(string)) {
+        System.out.println("もう一度入力してください。");
+        System.out.print("-> DOWN[0]  SAME[1]  UP[2] :");
+        string = input.readLine();
+      }
+
+      if ("0".equals(string)) {
         return Forecast.DOWN;
       }
 
-      if ("1".equals(s)) {
+      if ("1".equals(string)) {
         return Forecast.SAME;
       }
 
       return Forecast.UP;
     }
+
+    static private boolean isValidAnswer(String answer) {
+      if ("0".equals(answer)) { // プレイヤーはDOWNを選択
+        System.out.println("あなたの選択 -> DOWN[0]");
+        return true;
+      }
+
+      if ("1".equals(answer)) { // プレイヤーはSAMEを選択
+        System.out.println("あなたの選択 -> SAME[1]");
+        return true;
+      }
+
+      if ("2".equals(answer)) { // プレイヤーはUPを選択
+        System.out.println("あなたの選択 -> UP[2]");
+        return true;
+      }
+
+      System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
+      return false;
+    }
   }
 
-  /**
-   * はじめに1〜13までの数字をランダムに表示し、 次に表示される数字がはじめの数字より大きい(UP)か小さい(DOWN)か同じ(SAME)
-   * のいずれかを予想します。
-   * 
-   * 正解すると獲得した賞金がreturnされます。不正解の場合は0がreturnされます。
-   * 
-   * また、賞金を全額ベットしてゲームを続行する場合は、賞金を引数としてgetGを 再帰呼出しして、もう一度ゲームをします。
-   * 
-   * @param bet
-   *          : ベット額
-   * @param input
-   *          : コンソール入力用BufferedReader
-   * @return prize : 獲得賞金(不正解の場合は0)
-   * @throws IOException
-   *           : 整数以外の値を入力した場合
-   */
   private int deal(int bet, BufferedReader input) throws IOException {
     Random random = new Random();
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    Forecast answer = selectAnswer(input);
+    Forecast answer = Forecast.from(input);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
