@@ -127,12 +127,15 @@ public class UpDownGame {
       @Override
       int checkAnswer(int bet, int result) {
         if (result < 0) {
-          System.out.println("-> おめでとうございます。 [DOWN]");
           return bet * 2;
         }
 
-        System.out.println("-> まけ");
         return 0;
+      }
+
+      @Override
+      public String toString() {
+        return "DOWN[0]";
       }
     },
 
@@ -143,8 +146,12 @@ public class UpDownGame {
           return bet * 5;
         }
 
-        System.out.println("-> まけ");
         return 0;
+      }
+
+      @Override
+      public String toString() {
+        return "SAME[1]";
       }
     },
 
@@ -152,12 +159,15 @@ public class UpDownGame {
       @Override
       int checkAnswer(int bet, int result) {
         if (result > 0) {
-          System.out.println("-> おめでとうございます。 [UP]");
           return bet * 2;
         }
 
-        System.out.println("-> まけ");
         return 0;
+      }
+
+      @Override
+      public String toString() {
+        return "UP[2]";
       }
     };
 
@@ -171,16 +181,13 @@ public class UpDownGame {
 
     static Forecast from(String string) {
       if (Forecast.DOWN.number.equals(string)) { // プレイヤーはDOWNを選択
-        System.out.println("あなたの選択 -> DOWN[0]");
         return Forecast.DOWN;
       }
 
       if (Forecast.SAME.number.equals(string)) {
-        System.out.println("あなたの選択 -> SAME[1]");
         return Forecast.SAME;
       }
 
-      System.out.println("あなたの選択 -> UP[2]");
       return Forecast.UP;
     }
 
@@ -197,7 +204,6 @@ public class UpDownGame {
         return true;
       }
 
-      System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       return false;
     }
   }
@@ -211,12 +217,14 @@ public class UpDownGame {
     String string = input.readLine();
 
     while (!Forecast.isValidAnswer(string)) {
+      System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       System.out.println("もう一度入力してください。");
       System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
       string = input.readLine();
     }
 
     Forecast answer = Forecast.from(string);
+    System.out.println("あなたの選択 : " + answer);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
@@ -237,6 +245,8 @@ public class UpDownGame {
         System.out.println("*********************");
         System.out.println("賞金" + prize + "Gを獲得");
       }
+    } else {
+      System.out.println("-> まけ");
     }
 
     return prize;
