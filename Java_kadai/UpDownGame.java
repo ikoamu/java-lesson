@@ -189,14 +189,12 @@ public class UpDownGame {
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
     System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
-    String string = input.readLine();
     Forecast answer;
 
-    while ((answer = Forecast.from(string)) == null) {
+    while ((answer = Forecast.from(input.readLine())) == null) {
       System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       System.out.println("もう一度入力してください。");
       System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
-      string = input.readLine();
     }
 
     System.out.println("あなたの選択 : " + answer.getString());
