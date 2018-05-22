@@ -125,28 +125,30 @@ public class UpDownGame {
   private enum Forecast {
     DOWN("0") {
       @Override
-      int checkAnswer(int bet, int result) {
-        if (result < 0) {
+      int checkAnswer(int bet, int firstNumber, int secondNumber) {
+        if (result(firstNumber,secondNumber) == DOWN) {
           return bet * 2;
         }
 
         return 0;
       }
     },
+    
     SAME("1") {
       @Override
-      int checkAnswer(int bet, int result) {
-        if (result == 0) {
+      int checkAnswer(int bet, int firstNumber,int secondNumber) {
+        if (result(firstNumber,secondNumber) == SAME) {
           return bet * 5;
         }
 
         return 0;
       }
     },
+    
     UP("2") {
       @Override
-      int checkAnswer(int bet, int result) {
-        if (result == 0) {
+      int checkAnswer(int bet, int firstNumber,int secondNumber) {
+        if (result(firstNumber,secondNumber) == UP) {
           return bet * 2;
         }
 
@@ -160,7 +162,7 @@ public class UpDownGame {
       this.number = number;
     }
 
-    abstract int checkAnswer(int bet, int result);
+    abstract int checkAnswer(int bet, int firstNumber,int secondNumber);
 
     @Override
     public String toString() {
@@ -182,6 +184,18 @@ public class UpDownGame {
 
       return null;
     }
+    
+    Forecast result(int firstNumber,int secondNumber) {
+      if((secondNumber - firstNumber) < 0) {
+        return DOWN;
+      }
+      
+      if((secondNumber - firstNumber) == 0) {
+        return SAME;
+      }
+      
+      return UP;
+    }
   }
 
   private int deal(int bet, BufferedReader input) throws IOException {
@@ -189,24 +203,21 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
+    System.out.print("->"+ Forecast.DOWN + Forecast.SAME + Forecast.UP + " : ");
     Forecast answer;
 
     while ((answer = Forecast.from(input.readLine())) == null) {
       System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       System.out.println("もう一度入力してください。");
-      System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
+      System.out.print("->"+ Forecast.DOWN + Forecast.SAME + Forecast.UP + " : ");
     }
 
     System.out.println("あなたの選択 : " + answer);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
-    int result = secondNumber - firstNumber;
-    /*
-     * result > 0 : 結果はUP result == 0 : 結果はSAME result < 0 : 結果はDOWN
-     */
-    int prize = answer.checkAnswer(bet, result);
+    
+    int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
 
     if (prize != 0) {
       System.out.println("-> " + prize + "Gの勝ち");
