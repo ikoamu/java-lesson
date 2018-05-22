@@ -187,6 +187,7 @@ public class UpDownGame {
       for (Forecast forecast : Forecast.values()) {
         System.out.print(forecast + " ");
       }
+      
       System.out.print(" : ");
 
       answer = Forecast.from(input.readLine());
