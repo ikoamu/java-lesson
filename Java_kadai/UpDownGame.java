@@ -123,7 +123,36 @@ public class UpDownGame {
   }
 
   private enum Forecast {
-    DOWN("0"), SAME("1"), UP("2");
+    DOWN("0") {
+      @Override
+      int checkAnswer(int bet, int result) {
+        if (result < 0) {
+          return bet * 2;
+        }
+
+        return 0;
+      }
+    },
+    SAME("1") {
+      @Override
+      int checkAnswer(int bet, int result) {
+        if (result == 0) {
+          return bet * 5;
+        }
+
+        return 0;
+      }
+    },
+    UP("2") {
+      @Override
+      int checkAnswer(int bet, int result) {
+        if (result == 0) {
+          return bet * 2;
+        }
+
+        return 0;
+      }
+    };
 
     private final String number;
 
@@ -131,46 +160,10 @@ public class UpDownGame {
       this.number = number;
     }
 
-    @Override
-    public String toString() {
-      switch (this) {
-      case DOWN:
-        return "DOWN[0]";
-      case SAME:
-        return "SAME[1]";
-      case UP:
-        return "UP[2]";
-      default:
-        return null;
-      }
+    abstract int checkAnswer(int bet, int result);
 
-    }
-
-    private int checkAnswer(int bet, int result) {
-      int prize = 0;
-
-      switch (this) {
-      case DOWN:
-        if (result < 0) {
-          prize = bet * 2;
-        }
-
-        break;
-      case SAME:
-        if (result == 0) {
-          prize = bet * 5;
-        }
-
-        break;
-      case UP:
-        if (result > 0) {
-          prize = bet * 2;
-        }
-
-        break;
-      }
-
-      return prize;
+    public String getString() {
+      return this.toString()+"["+number+"]";
     }
 
     static Forecast from(String string) {
@@ -204,10 +197,9 @@ public class UpDownGame {
       System.out.println("もう一度入力してください。");
       System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
       string = input.readLine();
-      answer = Forecast.from(string);
     }
 
-    System.out.println("あなたの選択 : " + answer);
+    System.out.println("あなたの選択 : " + answer.getString());
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
