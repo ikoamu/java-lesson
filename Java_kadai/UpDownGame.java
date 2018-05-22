@@ -126,33 +126,21 @@ public class UpDownGame {
     DOWN("0") {
       @Override
       int checkAnswer(int bet, int firstNumber, int secondNumber) {
-        if (firstNumber > secondNumber) {
-          return bet * 2;
-        }
-
-        return 0;
+        return (firstNumber > secondNumber) ? bet * 2 : 0;
       }
     },
 
     SAME("1") {
       @Override
       int checkAnswer(int bet, int firstNumber, int secondNumber) {
-        if (firstNumber == secondNumber) {
-          return bet * 5;
-        }
-
-        return 0;
+        return (firstNumber == secondNumber) ? bet * 5 : 0;
       }
     },
 
     UP("2") {
       @Override
       int checkAnswer(int bet, int firstNumber, int secondNumber) {
-        if (firstNumber < secondNumber) {
-          return bet * 2;
-        }
-
-        return 0;
+        return (firstNumber < secondNumber) ? bet * 2 : 0;
       }
     };
 
@@ -194,7 +182,13 @@ public class UpDownGame {
     Forecast answer = null;
 
     while (answer == null) {
-      System.out.print("->" + Forecast.DOWN + Forecast.SAME + Forecast.UP + " : ");
+      System.out.print("-> ");
+
+      for (Forecast forecast : Forecast.values()) {
+        System.out.print(forecast + " ");
+      }
+      System.out.print(" : ");
+
       answer = Forecast.from(input.readLine());
       if (answer == null) {
         System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
