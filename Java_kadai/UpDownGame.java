@@ -123,55 +123,7 @@ public class UpDownGame {
   }
 
   private enum Forecast {
-    DOWN("0") {
-      @Override
-      int checkAnswer(int bet, int result) {
-        if (result < 0) {
-          return bet * 2;
-        }
-
-        return 0;
-      }
-
-      @Override
-      public String toString() {
-        return "DOWN[0]";
-      }
-    },
-
-    SAME("1") {
-      @Override
-      int checkAnswer(int bet, int result) {
-        if (result == 0) {
-          return bet * 5;
-        }
-
-        return 0;
-      }
-
-      @Override
-      public String toString() {
-        return "SAME[1]";
-      }
-    },
-
-    UP("2") {
-      @Override
-      int checkAnswer(int bet, int result) {
-        if (result > 0) {
-          return bet * 2;
-        }
-
-        return 0;
-      }
-
-      @Override
-      public String toString() {
-        return "UP[2]";
-      }
-    };
-
-    abstract int checkAnswer(int bet, int result);
+    DOWN("0"), SAME("1"), UP("2");
 
     private final String number;
 
@@ -179,8 +131,50 @@ public class UpDownGame {
       this.number = number;
     }
 
+    @Override
+    public String toString() {
+      switch (this) {
+      case DOWN:
+        return "DOWN[0]";
+      case SAME:
+        return "SAME[1]";
+      case UP:
+        return "UP[2]";
+      default:
+        return null;
+      }
+
+    }
+
+    private int checkAnswer(int bet, int result) {
+      int prize = 0;
+
+      switch (this) {
+      case DOWN:
+        if (result < 0) {
+          prize = bet * 2;
+        }
+
+        break;
+      case SAME:
+        if (result == 0) {
+          prize = bet * 5;
+        }
+
+        break;
+      case UP:
+        if (result > 0) {
+          prize = bet * 2;
+        }
+
+        break;
+      }
+
+      return prize;
+    }
+
     static Forecast from(String string) {
-      if (Forecast.DOWN.number.equals(string)) { // プレイヤーはDOWNを選択
+      if (Forecast.DOWN.number.equals(string)) {
         return Forecast.DOWN;
       }
 
@@ -203,9 +197,9 @@ public class UpDownGame {
 
     System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
     String string = input.readLine();
-    Forecast answer = Forecast.from(string);
+    Forecast answer;
 
-    while (answer == null) {
+    while ((answer = Forecast.from(string)) == null) {
       System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
       System.out.println("もう一度入力してください。");
       System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
