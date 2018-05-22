@@ -162,8 +162,9 @@ public class UpDownGame {
 
     abstract int checkAnswer(int bet, int result);
 
-    public String getString() {
-      return this.toString()+"["+number+"]";
+    @Override
+    public String toString() {
+      return this.name()+"["+number+"]";
     }
 
     static Forecast from(String string) {
@@ -197,7 +198,7 @@ public class UpDownGame {
       System.out.print("-> DOWN[0] SAME[1] UP[2] : ");
     }
 
-    System.out.println("あなたの選択 : " + answer.getString());
+    System.out.println("あなたの選択 : " + answer);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
