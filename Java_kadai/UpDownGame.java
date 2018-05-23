@@ -26,7 +26,7 @@ import java.io.InputStreamReader;
 import java.io.IOException;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.*;
+import java.util.stream.Stream;
 
 public class UpDownGame {
   private final static int GAMEOVER_GOLD = 0; // ゲームオーバーになる金額
