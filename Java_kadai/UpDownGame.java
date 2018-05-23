@@ -185,7 +185,7 @@ public class UpDownGame {
     Forecast answer = null;
 
     while (answer == null) {
-      List<String> list = Arrays.asList(Forecast.DOWN.toString(), Forecast.SAME.toString(), Forecast.UP.toString());
+      List<String> list = Arrays.asList(Forecast.values().toString());
       System.out.print(list.stream().collect(Collectors.joining(" ", "-> ", " : ")));
 
       answer = Forecast.from(input.readLine());
