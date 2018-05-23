@@ -239,13 +239,15 @@ public class UpDownGame {
     System.out.println("このまま続けますか？");
     System.out.println("現在の賞金 : " + newBetG);
     System.out.println("*******************");
-    System.out.print("いいえ[0] はい[1] : ");
-    String reply = input.readLine();
+    String reply = null;
 
     while (!isValidReply(reply)) {
-      System.out.println("もう一度入力してください。");
       System.out.print("いいえ[0] はい[1] : ");
-      reply = input.readLine();
+      reply = input.readLine();    
+      if (!isValidReply(reply)) {
+        System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
+        System.out.println("もう一度入力してください。");
+      }
     }
 
     if ("1".equals(reply)) {
@@ -260,7 +262,6 @@ public class UpDownGame {
       return true;
     }
 
-    System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
     return false;
   }
 }
