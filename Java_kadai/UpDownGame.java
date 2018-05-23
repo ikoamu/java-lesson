@@ -160,16 +160,10 @@ public class UpDownGame {
     }
 
     static Forecast from(String string) {
-      if (Forecast.DOWN.number.equals(string)) {
-        return Forecast.DOWN;
-      }
-
-      if (Forecast.SAME.number.equals(string)) {
-        return Forecast.SAME;
-      }
-
-      if (Forecast.UP.number.equals(string)) {
-        return Forecast.UP;
+      for (Forecast forecast : Forecast.values()) {
+        if (string.equals(forecast.number)) {
+          return forecast;
+        }
       }
 
       return null;
@@ -184,11 +178,13 @@ public class UpDownGame {
     Forecast answer = null;
 
     while (answer == null) {
-      System.out.print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
+      System.out
+          .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
 
       answer = Forecast.from(input.readLine());
       if (answer == null) {
-        System.out.println("!! 0, 1, 2のいずれかの数字を入力してください。!!");
+        System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
+            .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
         System.out.println("もう一度入力してください。");
       }
     }
