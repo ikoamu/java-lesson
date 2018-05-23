@@ -186,21 +186,21 @@ public class UpDownGame {
       return prize;
     }
 
-    if (prize != 0) {
-      System.out.println("-> " + prize + "Gの勝ち");
-      /* 賞金を全額ベットして続行するか、賞金を獲得するか選択 */
-      if (askContinue(prize, input) == true) {
-        System.out.println("*********************");
-        System.out.println("BET額" + prize + "Gで続行");
-        prize = deal(prize, input);
-      } else {
-        System.out.println("*********************");
-        System.out.println("賞金" + prize + "Gを獲得");
-      }
-    } else {
+    if (prize == 0) {
       System.out.println("-> まけ");
+      return 0;
     }
 
+    System.out.println("-> " + prize + "Gの勝ち");
+    /* 賞金を全額ベットして続行するか、賞金を獲得するか選択 */
+    if (askContinue(prize, input)) {
+      System.out.println("*********************");
+      System.out.println("BET額" + prize + "Gで続行");
+      return deal(prize, input);
+    }
+
+    System.out.println("*********************");
+    System.out.println("賞金" + prize + "Gを獲得");
     return prize;
   }
 
