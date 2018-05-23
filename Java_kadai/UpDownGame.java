@@ -182,6 +182,10 @@ public class UpDownGame {
 
     int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
 
+    if ((prize + pocket) >= gameclearGold) {
+      return prize;
+    }
+
     if (prize != 0) {
       System.out.println("-> " + prize + "Gの勝ち");
       /* 賞金を全額ベットして続行するか、賞金を獲得するか選択 */
