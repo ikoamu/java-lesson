@@ -175,21 +175,7 @@ public class UpDownGame {
     int firstNumber = random.nextInt(13) + 1; // はじめの数字
     System.out.println("-> はじめの数字は" + firstNumber + "です");
 
-    Forecast answer = null;
-
-    while (answer == null) {
-      System.out
-          .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
-
-      answer = Forecast.from(input.readLine());
-      if (answer == null) {
-        System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
-            .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
-        System.out.println("もう一度入力してください。");
-      }
-    }
-
-    System.out.println("あなたの選択 : " + answer);
+    Forecast answer = selectForecast(input);
 
     int secondNumber = random.nextInt(13) + 1;
     System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
@@ -212,6 +198,25 @@ public class UpDownGame {
     }
 
     return prize;
+  }
+
+  private Forecast selectForecast(BufferedReader input) throws IOException {
+    Forecast answer = null;
+
+    while (answer == null) {
+      System.out
+          .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
+      answer = Forecast.from(input.readLine());
+
+      if (answer == null) {
+        System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
+            .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
+        System.out.println("もう一度入力してください。");
+      }
+    }
+
+    System.out.println("あなたの選択 : " + answer);
+    return answer;
   }
 
   /**
