@@ -24,7 +24,10 @@ package Java_kadai;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class UpDownGame {
   private final static int GAMEOVER_GOLD = 0; // ゲームオーバーになる金額
@@ -182,13 +185,8 @@ public class UpDownGame {
     Forecast answer = null;
 
     while (answer == null) {
-      System.out.print("-> ");
-
-      for (Forecast forecast : Forecast.values()) {
-        System.out.print(forecast + " ");
-      }
-      
-      System.out.print(" : ");
+      List<String> list = Arrays.asList(Forecast.DOWN.toString(), Forecast.SAME.toString(), Forecast.UP.toString());
+      System.out.print(list.stream().collect(Collectors.joining(" ", "-> ", " : ")));
 
       answer = Forecast.from(input.readLine());
       if (answer == null) {
