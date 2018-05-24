@@ -182,26 +182,44 @@ public class UpDownGame {
 
     int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
 
-    if ((prize + pocket) >= gameclearGold) {
-      return prize;
-    }
+    boolean playerWin = isWin(prize); // プレイヤーの勝敗
 
-    if (prize == 0) {
-      System.out.println("-> まけ");
-      return 0;
-    }
-
-    System.out.println("-> " + prize + "Gの勝ち");
-    /* 賞金を全額ベットして続行するか、賞金を獲得するか選択 */
-    if (askContinue(prize, input)) {
-      System.out.println("*********************");
+    if (checkContinue(prize, input, playerWin)) {
       System.out.println("BET額" + prize + "Gで続行");
       return deal(prize, input);
+    } else {
+      if (playerWin) {
+        System.out.println("賞金" + prize + "Gを獲得");
+      }
+
+      return prize;
+    }
+  }
+
+  private boolean isWin(int prize) {
+    if (prize != 0) {
+      System.out.println("-> " + prize + "Gの勝ち");
+      return true;
+    } else {
+      System.out.println("-> まけ");
+      return false;
+    }
+  }
+
+  /**
+   * 再帰を続けるかどうか判定するメソッド
+   * 
+   * ゲームに勝って、なおかつ所持金と賞金の合計がgameclearGoldよりも少ない場合のみ
+   * askContinue()を呼び出し、再起するかどうかを選択できる
+   */
+  private boolean checkContinue(int prize, BufferedReader input, boolean playerWin) throws IOException {
+    boolean continueFlag = false;
+
+    if (prize + pocket < gameclearGold && playerWin) {
+      continueFlag = askContinue(prize, input);
     }
 
-    System.out.println("*********************");
-    System.out.println("賞金" + prize + "Gを獲得");
-    return prize;
+    return continueFlag;
   }
 
   private Forecast selectForecast(BufferedReader input) throws IOException {
@@ -243,7 +261,7 @@ public class UpDownGame {
 
     while (!isValidReply(reply)) {
       System.out.print("いいえ[0] はい[1] : ");
-      reply = input.readLine();    
+      reply = input.readLine();
       if (!isValidReply(reply)) {
         System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
         System.out.println("もう一度入力してください。");
