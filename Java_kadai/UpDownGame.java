@@ -184,6 +184,12 @@ public class UpDownGame {
 
     boolean playerWin = isWin(prize); // プレイヤーの勝敗
 
+    if (playerWin) {
+      System.out.println("-> " + prize + "Gの勝ち");
+    } else {
+      System.out.println("-> まけ");
+    }
+
     if (checkContinue(prize, input, playerWin)) {
       System.out.println("BET額" + prize + "Gで続行");
       return deal(prize, input);
@@ -198,10 +204,8 @@ public class UpDownGame {
 
   private boolean isWin(int prize) {
     if (prize != 0) {
-      System.out.println("-> " + prize + "Gの勝ち");
       return true;
     } else {
-      System.out.println("-> まけ");
       return false;
     }
   }
