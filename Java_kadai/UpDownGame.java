@@ -38,6 +38,7 @@ public class UpDownGame {
   private final int gameclearGold;
   private int pocket; // プレイヤーの所持金
   private final int maxBetGold;
+  private boolean playerWin;
 
   public UpDownGame() {
     gameoverGold = GAMEOVER_GOLD;
@@ -66,8 +67,13 @@ public class UpDownGame {
         pocket -= bet; // 所持金からベット額を没収
         System.out.println("現在の所持金 : " + pocket + "G");
         System.out.println("----------------------------");
+        int prize = deal(bet, input); // ゲームに勝った賞金がプラスされる(負けた場合は0));
+        pocket += prize;
 
-        pocket += deal(bet, input); // ゲームに勝った賞金がプラスされる(負けた場合は0)
+        if (playerWin) {
+          System.out.println("賞金" + prize + "Gを獲得");
+        }
+
         System.out.println("現在の所持金は" + pocket + "Gです。");
       }
     } catch (IOException e) {
@@ -182,7 +188,7 @@ public class UpDownGame {
 
     int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
 
-    boolean playerWin = isWin(prize); // プレイヤーの勝敗
+    playerWin = isWin(prize); // プレイヤーの勝敗
 
     if (playerWin) {
       System.out.println("-> " + prize + "Gの勝ち");
@@ -194,10 +200,6 @@ public class UpDownGame {
       System.out.println("BET額" + prize + "Gで続行");
       return deal(prize, input);
     } else {
-      if (playerWin) {
-        System.out.println("賞金" + prize + "Gを獲得");
-      }
-
       return prize;
     }
   }
