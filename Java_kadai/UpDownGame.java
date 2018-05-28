@@ -176,11 +176,11 @@ class BetGold {
 }
 
 class Gaming {
-  private int bet;
-  private int pocket;
-  private int resultGold;
-  private int gameclearGold;
-  private boolean playerWin;
+  private int bet; // ベット額
+  private int pocket; // プレイヤーの所持金
+  private int resultGold; // 獲得賞金
+  private int gameclearGold; // ゲームクリアの条件額
+  private boolean playerWin; // プレイヤーの勝敗
 
   public Gaming(int bet, int pocket, int gameclearGold) {
     this.bet = bet;
@@ -195,8 +195,8 @@ class Gaming {
 
     Forecast answer = selectForecast(input);
 
-    int secondNumber = random.nextInt(13) + 1;
-    System.out.println("-> 2回目の数字は" + secondNumber + "でした"); // 2回目の数字
+    int secondNumber = random.nextInt(13) + 1; // 2回目の数字
+    System.out.println("-> 2回目の数字は" + secondNumber + "でした");
 
     int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
     checkPlayerWin(prize);
@@ -216,14 +216,31 @@ class Gaming {
     }
   }
 
+  /**
+   * 一連のGamingで獲得した賞金を返すメソッド
+   * 
+   * @return 獲得賞金
+   */
   public int result() {
     return resultGold;
   }
 
+  /**
+   * 一連のGamingにおけるプレイヤーの勝敗結果
+   * 
+   * @return プレイヤーが勝利した場合 true、負けの場合はfalseを返す
+   */
   public boolean isWin() {
-    return playerWin;
+    return playerWin; //
   }
 
+  /**
+   * 一回のdealが終わった後の、賞金を見てプレイヤーの勝敗をチェックする prizeが0なければプレイヤーは勝利いるので、plyerWinをtrueに、
+   * prizeが0であれば、プレイヤーは負けたので、playerWinをfalseにする
+   * 
+   * @param prize
+   *          獲得賞金
+   */
   private void checkPlayerWin(int prize) {
     if (prize != 0) {
       playerWin = true;
