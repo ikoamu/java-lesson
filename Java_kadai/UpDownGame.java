@@ -66,12 +66,11 @@ public class UpDownGame {
         pocket -= bet; // 所持金からベット額を没収
         System.out.println("現在の所持金 : " + pocket + "G");
         System.out.println("----------------------------");
-        Deal deal = new Deal(bet, pocket, gameclearGold);
-        deal.start(input);
-        int prize = deal.result();
+        DealResult dealResult = new Deal(bet, pocket, gameclearGold).start(input);
+        int prize = dealResult.prize();
         pocket += prize;
 
-        if (deal.isWin()) {
+        if (dealResult.isWin()) {
           System.out.println("賞金" + prize + "Gを獲得");
         }
 
@@ -134,9 +133,7 @@ public class UpDownGame {
   private class Deal {
     private int bet; // ベット額
     private int pocket; // プレイヤーの所持金
-    private int resultGold; // 獲得賞金
     private int gameclearGold; // ゲームクリアの条件額
-    private boolean playerWin; // プレイヤーの勝敗
 
     public Deal(int bet, int pocket, int gameclearGold) {
       this.bet = bet;
@@ -144,8 +141,9 @@ public class UpDownGame {
       this.gameclearGold = gameclearGold;
     }
 
-    private void start(BufferedReader input) throws IOException {
+    private DealResult start(BufferedReader input) throws IOException {
       Random random = new Random();
+
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
       System.out.println("-> はじめの数字は" + firstNumber + "です");
 
@@ -155,53 +153,20 @@ public class UpDownGame {
       System.out.println("-> 2回目の数字は" + secondNumber + "でした");
 
       int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
-      checkPlayerWin(prize);
+      DealResult dealResult = new DealResult(prize);
 
-      if (playerWin) {
+      if (dealResult.isWin()) {
         System.out.println("-> " + prize + "Gの勝ち");
       } else {
         System.out.println("-> まけ");
       }
 
-      if (checkContinue(prize, input, playerWin)) {
+      if (checkContinue(prize, input, dealResult.isWin())) {
         System.out.println("BET額" + prize + "Gで続行");
         bet = prize;
-        this.start(input);
+        return new Deal(bet, pocket, gameclearGold).start(input);
       } else {
-        resultGold = prize;
-      }
-    }
-
-    /**
-     * 一連のGamingで獲得した賞金を返すメソッド
-     * 
-     * @return 獲得賞金
-     */
-    private int result() {
-      return resultGold;
-    }
-
-    /**
-     * 一連のGamingにおけるプレイヤーの勝敗結果
-     * 
-     * @return プレイヤーが勝利した場合 true、負けの場合はfalseを返す
-     */
-    private boolean isWin() {
-      return playerWin; //
-    }
-
-    /**
-     * 一回のdealが終わった後の、賞金を見てプレイヤーの勝敗をチェックする prizeが0なければプレイヤーは勝利いるので、plyerWinをtrueに、
-     * prizeが0であれば、プレイヤーは負けたので、playerWinをfalseにする
-     * 
-     * @param prize
-     *          獲得賞金
-     */
-    private void checkPlayerWin(int prize) {
-      if (prize != 0) {
-        playerWin = true;
-      } else {
-        playerWin = false;
+        return dealResult;
       }
     }
 
@@ -268,6 +233,32 @@ public class UpDownGame {
 
       System.out.println("あなたの選択 : " + answer);
       return answer;
+    }
+  }
+
+  private class DealResult {
+    int prize;
+    boolean playerWin;
+
+    public DealResult(int prize) {
+      this.prize = prize;
+      this.playerWin = checkWin();
+    }
+
+    private boolean checkWin() {
+      if (prize != 0) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    private int prize() {
+      return prize;
+    }
+
+    private boolean isWin() {
+      return playerWin;
     }
   }
 
