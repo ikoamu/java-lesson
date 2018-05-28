@@ -66,12 +66,12 @@ public class UpDownGame {
         pocket -= bet; // 所持金からベット額を没収
         System.out.println("現在の所持金 : " + pocket + "G");
         System.out.println("----------------------------");
-        Gaming gaming = new Gaming(bet, pocket, gameclearGold);
-        gaming.deal(input);
-        int prize = gaming.result();
+        Deal deal = new Deal(bet, pocket, gameclearGold);
+        deal.start(input);
+        int prize = deal.result();
         pocket += prize;
 
-        if (gaming.isWin()) {
+        if (deal.isWin()) {
           System.out.println("賞金" + prize + "Gを獲得");
         }
 
@@ -130,188 +130,145 @@ public class UpDownGame {
     System.out.println(betgold.getMessage());
     return betgold.getBet();
   }
-}
 
-class BetGold {
-  final private int bet;
-  private boolean isValid;
-  private String message;
+  private class Deal {
+    private int bet; // ベット額
+    private int pocket; // プレイヤーの所持金
+    private int resultGold; // 獲得賞金
+    private int gameclearGold; // ゲームクリアの条件額
+    private boolean playerWin; // プレイヤーの勝敗
 
-  public BetGold(String bet, int maxBetGold, int pocket) {
-    int tmpBet = 0;
-    try {
-      tmpBet = Integer.parseInt(bet);
-      if (maxBetGold < tmpBet) {
-        this.message = "!!" + maxBetGold + "G以下の金額を入力してください。!!";
-        this.isValid = false;
-      } else if (pocket < tmpBet) {
-        this.message = "!!ベット額が所持金を超えています。!!";
-        this.isValid = false;
-      } else if (tmpBet < 0) {
-        this.message = "!!ベット額がマイナスです。!!";
-        this.isValid = false;
+    public Deal(int bet, int pocket, int gameclearGold) {
+      this.bet = bet;
+      this.pocket = pocket;
+      this.gameclearGold = gameclearGold;
+    }
+
+    private void start(BufferedReader input) throws IOException {
+      Random random = new Random();
+      int firstNumber = random.nextInt(13) + 1; // はじめの数字
+      System.out.println("-> はじめの数字は" + firstNumber + "です");
+
+      Forecast answer = selectForecast(input);
+
+      int secondNumber = random.nextInt(13) + 1; // 2回目の数字
+      System.out.println("-> 2回目の数字は" + secondNumber + "でした");
+
+      int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
+      checkPlayerWin(prize);
+
+      if (playerWin) {
+        System.out.println("-> " + prize + "Gの勝ち");
       } else {
-        this.message = "ベット額 : " + tmpBet + "G";
-        this.isValid = true;
+        System.out.println("-> まけ");
       }
-    } catch (NumberFormatException e) {
-      this.message = "!!整数以外が入力されました。!!";
-      this.isValid = false;
-    } finally {
-      this.bet = tmpBet;
-    }
-  }
 
-  public int getBet() {
-    return bet;
-  }
-
-  public boolean checkValidity() {
-    return isValid;
-  }
-
-  public String getMessage() {
-    return message;
-  }
-}
-
-class Gaming {
-  private int bet; // ベット額
-  private int pocket; // プレイヤーの所持金
-  private int resultGold; // 獲得賞金
-  private int gameclearGold; // ゲームクリアの条件額
-  private boolean playerWin; // プレイヤーの勝敗
-
-  public Gaming(int bet, int pocket, int gameclearGold) {
-    this.bet = bet;
-    this.pocket = pocket;
-    this.gameclearGold = gameclearGold;
-  }
-
-  public void deal(BufferedReader input) throws IOException {
-    Random random = new Random();
-    int firstNumber = random.nextInt(13) + 1; // はじめの数字
-    System.out.println("-> はじめの数字は" + firstNumber + "です");
-
-    Forecast answer = selectForecast(input);
-
-    int secondNumber = random.nextInt(13) + 1; // 2回目の数字
-    System.out.println("-> 2回目の数字は" + secondNumber + "でした");
-
-    int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
-    checkPlayerWin(prize);
-
-    if (playerWin) {
-      System.out.println("-> " + prize + "Gの勝ち");
-    } else {
-      System.out.println("-> まけ");
-    }
-
-    if (checkContinue(prize, input, playerWin)) {
-      System.out.println("BET額" + prize + "Gで続行");
-      bet = prize;
-      this.deal(input);
-    } else {
-      resultGold = prize;
-    }
-  }
-
-  /**
-   * 一連のGamingで獲得した賞金を返すメソッド
-   * 
-   * @return 獲得賞金
-   */
-  public int result() {
-    return resultGold;
-  }
-
-  /**
-   * 一連のGamingにおけるプレイヤーの勝敗結果
-   * 
-   * @return プレイヤーが勝利した場合 true、負けの場合はfalseを返す
-   */
-  public boolean isWin() {
-    return playerWin; //
-  }
-
-  /**
-   * 一回のdealが終わった後の、賞金を見てプレイヤーの勝敗をチェックする prizeが0なければプレイヤーは勝利いるので、plyerWinをtrueに、
-   * prizeが0であれば、プレイヤーは負けたので、playerWinをfalseにする
-   * 
-   * @param prize
-   *          獲得賞金
-   */
-  private void checkPlayerWin(int prize) {
-    if (prize != 0) {
-      playerWin = true;
-    } else {
-      playerWin = false;
-    }
-  }
-
-  /**
-   * 再帰を続けるかどうか判定するメソッド
-   * 
-   * ゲームに勝って、なおかつ所持金と賞金の合計がgameclearGoldよりも少ない場合のみ
-   * askContinue()を呼び出し、再起するかどうかを選択できる
-   */
-  private boolean checkContinue(int prize, BufferedReader input, boolean playerWin) throws IOException {
-    boolean continueFlag = false;
-
-    if (prize + pocket < gameclearGold && playerWin) {
-      continueFlag = askContinue(prize, input);
-    }
-
-    return continueFlag;
-  }
-
-  private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
-    System.out.println("このまま続けますか？");
-    System.out.println("現在の賞金 : " + newBetG);
-    System.out.println("*******************");
-    String reply = null;
-
-    while (!isValidReply(reply)) {
-      System.out.print("いいえ[0] はい[1] : ");
-      reply = input.readLine();
-      if (!isValidReply(reply)) {
-        System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
-        System.out.println("もう一度入力してください。");
+      if (checkContinue(prize, input, playerWin)) {
+        System.out.println("BET額" + prize + "Gで続行");
+        bet = prize;
+        this.start(input);
+      } else {
+        resultGold = prize;
       }
     }
 
-    if ("1".equals(reply)) {
-      return true;
+    /**
+     * 一連のGamingで獲得した賞金を返すメソッド
+     * 
+     * @return 獲得賞金
+     */
+    private int result() {
+      return resultGold;
     }
 
-    return false;
-  }
-
-  private boolean isValidReply(String reply) {
-    if ("1".equals(reply) || "0".equals(reply)) {
-      return true;
+    /**
+     * 一連のGamingにおけるプレイヤーの勝敗結果
+     * 
+     * @return プレイヤーが勝利した場合 true、負けの場合はfalseを返す
+     */
+    private boolean isWin() {
+      return playerWin; //
     }
 
-    return false;
-  }
-
-  private Forecast selectForecast(BufferedReader input) throws IOException {
-    Forecast answer = null;
-
-    while (answer == null) {
-      System.out
-          .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
-      answer = Forecast.from(input.readLine());
-
-      if (answer == null) {
-        System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
-            .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
-        System.out.println("もう一度入力してください。");
+    /**
+     * 一回のdealが終わった後の、賞金を見てプレイヤーの勝敗をチェックする prizeが0なければプレイヤーは勝利いるので、plyerWinをtrueに、
+     * prizeが0であれば、プレイヤーは負けたので、playerWinをfalseにする
+     * 
+     * @param prize
+     *          獲得賞金
+     */
+    private void checkPlayerWin(int prize) {
+      if (prize != 0) {
+        playerWin = true;
+      } else {
+        playerWin = false;
       }
     }
 
-    System.out.println("あなたの選択 : " + answer);
-    return answer;
+    /**
+     * 再帰を続けるかどうか判定するメソッド
+     * 
+     * ゲームに勝って、なおかつ所持金と賞金の合計がgameclearGoldよりも少ない場合のみ
+     * askContinue()を呼び出し、再起するかどうかを選択できる
+     */
+    private boolean checkContinue(int prize, BufferedReader input, boolean playerWin) throws IOException {
+      boolean continueFlag = false;
+
+      if (prize + pocket < gameclearGold && playerWin) {
+        continueFlag = askContinue(prize, input);
+      }
+
+      return continueFlag;
+    }
+
+    private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
+      System.out.println("このまま続けますか？");
+      System.out.println("現在の賞金 : " + newBetG);
+      System.out.println("*******************");
+      String reply = null;
+
+      while (!isValidReply(reply)) {
+        System.out.print("いいえ[0] はい[1] : ");
+        reply = input.readLine();
+        if (!isValidReply(reply)) {
+          System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
+          System.out.println("もう一度入力してください。");
+        }
+      }
+
+      if ("1".equals(reply)) {
+        return true;
+      }
+
+      return false;
+    }
+
+    private boolean isValidReply(String reply) {
+      if ("1".equals(reply) || "0".equals(reply)) {
+        return true;
+      }
+
+      return false;
+    }
+
+    private Forecast selectForecast(BufferedReader input) throws IOException {
+      Forecast answer = null;
+
+      while (answer == null) {
+        System.out
+            .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
+        answer = Forecast.from(input.readLine());
+
+        if (answer == null) {
+          System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
+              .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
+          System.out.println("もう一度入力してください。");
+        }
+      }
+
+      System.out.println("あなたの選択 : " + answer);
+      return answer;
+    }
   }
 
   private enum Forecast {
