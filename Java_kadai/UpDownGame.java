@@ -131,9 +131,9 @@ public class UpDownGame {
   }
 
   private class Deal {
-    private int bet; // ベット額
-    private int pocket; // プレイヤーの所持金
-    private int gameclearGold; // ゲームクリアの条件額
+    final private int bet; // ベット額
+    final private int pocket; // プレイヤーの所持金
+    final private int gameclearGold; // ゲームクリアの条件額
 
     public Deal(int bet, int pocket, int gameclearGold) {
       this.bet = bet;
@@ -163,8 +163,7 @@ public class UpDownGame {
 
       if (checkContinue(prize, input, dealResult.isWin())) {
         System.out.println("BET額" + prize + "Gで続行");
-        bet = prize;
-        return new Deal(bet, pocket, gameclearGold).start(input);
+        return new Deal(prize, pocket, gameclearGold).start(input);
       } else {
         return dealResult;
       }
