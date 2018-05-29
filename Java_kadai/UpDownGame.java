@@ -180,15 +180,17 @@ public class UpDownGame {
     }
 
     private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
-      System.out.println("このまま続けますか？");
-      System.out.println("現在の賞金 : " + newBetG);
-      System.out.println("*******************");
       String reply = null;
+      boolean replyValidity = false;
 
-      while (!isValidReply(reply)) {
+      while (!replyValidity) {
+        System.out.println("このまま続けますか？");
+        System.out.println("現在の賞金 : " + newBetG);
         System.out.print("いいえ[0] はい[1] : ");
         reply = input.readLine();
-        if (!isValidReply(reply)) {
+        replyValidity = isValidReply(reply);
+
+        if (!replyValidity) {
           System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
           System.out.println("もう一度入力してください。");
         }
