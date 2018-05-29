@@ -176,13 +176,7 @@ public class UpDownGame {
      * askContinue()を呼び出し、再起するかどうかを選択できる
      */
     private boolean checkContinue(int prize, BufferedReader input, boolean playerWin) throws IOException {
-      boolean continueFlag = false;
-
-      if (prize + pocket < gameclearGold && playerWin) {
-        continueFlag = askContinue(prize, input);
-      }
-
-      return continueFlag;
+      return prize + pocket < gameclearGold && playerWin && askContinue(prize, input);
     }
 
     private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
