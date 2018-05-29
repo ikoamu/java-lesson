@@ -131,9 +131,9 @@ public class UpDownGame {
   }
 
   private class Deal {
-    final private int bet; // ベット額
-    final private int pocket; // プレイヤーの所持金
-    final private int gameclearGold; // ゲームクリアの条件額
+    private final int bet; // ベット額
+    private final int pocket; // プレイヤーの所持金
+    private final int gameclearGold; // ゲームクリアの条件額
 
     public Deal(int bet, int pocket, int gameclearGold) {
       this.bet = bet;
