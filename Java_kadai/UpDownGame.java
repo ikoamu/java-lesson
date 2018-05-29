@@ -180,35 +180,23 @@ public class UpDownGame {
     }
 
     private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
-      String reply = null;
-      boolean replyValidity = false;
+      Reply reply = null;
 
-      while (!replyValidity) {
+      while (reply == null) {
         System.out.println("このまま続けますか？");
         System.out.println("現在の賞金 : " + newBetG);
-        System.out.print("いいえ[0] はい[1] : ");
-        reply = input.readLine();
-        replyValidity = isValidReply(reply);
+        System.out.print(Stream.of(Reply.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
 
-        if (!replyValidity) {
-          System.out.println("!! 0, 1 いずれかの数字を入力してください。!!");
+        reply = Reply.from(input.readLine());
+
+        if (reply == null) {
+          System.out.println(Stream.of(Reply.values()).map(r -> r.number)
+              .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
           System.out.println("もう一度入力してください。");
         }
       }
 
-      if ("1".equals(reply)) {
-        return true;
-      }
-
-      return false;
-    }
-
-    private boolean isValidReply(String reply) {
-      if ("1".equals(reply) || "0".equals(reply)) {
-        return true;
-      }
-
-      return false;
+      return reply == Reply.YES;
     }
 
     private Forecast selectForecast(BufferedReader input) throws IOException {
@@ -255,6 +243,32 @@ public class UpDownGame {
     private boolean isWin() {
       return playerWin;
     }
+  }
+
+  private enum Reply {
+    NO("0"), YES("1");
+
+    private final String number;
+
+    private Reply(final String number) {
+      this.number = number;
+    }
+
+    @Override
+    public String toString() {
+      return this.name() + "[" + number + "]";
+    }
+
+    static Reply from(String string) {
+      for (Reply reply : Reply.values()) {
+        if (string.equals(reply.number)) {
+          return reply;
+        }
+      }
+
+      return null;
+    }
+
   }
 
   private enum Forecast {
