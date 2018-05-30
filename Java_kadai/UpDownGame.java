@@ -145,20 +145,20 @@ public class UpDownGame {
       Random random = new Random();
 
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
-      System.out.println("-> はじめの数字は" + firstNumber + "です");
+      System.out.println("はじめの数字は" + firstNumber + "です");
 
       Forecast answer = selectForecast(input);
 
       int secondNumber = random.nextInt(13) + 1; // 2回目の数字
-      System.out.println("-> 2回目の数字は" + secondNumber + "でした");
+      System.out.println("2回目の数字は" + secondNumber + "でした");
 
       int prize = answer.checkAnswer(bet, firstNumber, secondNumber);
       DealResult dealResult = new DealResult(prize);
 
       if (dealResult.isWin()) {
-        System.out.println("-> " + prize + "Gの勝ち");
+        System.out.println(prize + "Gの勝ち");
       } else {
-        System.out.println("-> まけ");
+        System.out.println("まけ");
       }
 
       if (checkContinue(prize, input, dealResult.isWin())) {
@@ -205,7 +205,7 @@ public class UpDownGame {
 
       while (answer == null) {
         System.out
-            .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", "-> ", " : ")));
+            .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
         answer = Forecast.from(input.readLine());
 
         if (answer == null) {
