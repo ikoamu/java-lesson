@@ -180,24 +180,24 @@ public class UpDownGame {
     }
 
     private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
-      ContinueReply continueReply = null;
+      Continuance continueReply = null;
 
       while (continueReply == null) {
         System.out.println("このまま続けますか？");
         System.out.println("現在の賞金 : " + newBetG);
         System.out
-            .print(Stream.of(ContinueReply.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+            .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
 
-        continueReply = ContinueReply.from(input.readLine());
+        continueReply = Continuance.from(input.readLine());
 
         if (continueReply == null) {
-          System.out.println(Stream.of(ContinueReply.values()).map(r -> r.number)
+          System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
               .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
           System.out.println("もう一度入力してください。");
         }
       }
 
-      return continueReply == ContinueReply.KEEP;
+      return continueReply == Continuance.KEEP;
     }
 
     private Forecast selectForecast(BufferedReader input) throws IOException {
@@ -246,12 +246,12 @@ public class UpDownGame {
     }
   }
 
-  private enum ContinueReply {
+  private enum Continuance {
     STOP("0"), KEEP("1");
 
     private final String number;
 
-    private ContinueReply(final String number) {
+    private Continuance(final String number) {
       this.number = number;
     }
 
@@ -260,8 +260,8 @@ public class UpDownGame {
       return this.name() + "[" + number + "]";
     }
 
-    static ContinueReply from(String string) {
-      for (ContinueReply reply : ContinueReply.values()) {
+    static Continuance from(String string) {
+      for (Continuance reply : Continuance.values()) {
         if (string.equals(reply.number)) {
           return reply;
         }
