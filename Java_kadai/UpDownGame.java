@@ -197,7 +197,7 @@ public class UpDownGame {
         }
       }
 
-      return continueReply == ContinueReply.YES;
+      return continueReply == ContinueReply.KEEP;
     }
 
     private Forecast selectForecast(BufferedReader input) throws IOException {
@@ -247,7 +247,7 @@ public class UpDownGame {
   }
 
   private enum ContinueReply {
-    NO("0"), YES("1");
+    STOP("0"), KEEP("1");
 
     private final String number;
 
