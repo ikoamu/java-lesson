@@ -187,7 +187,6 @@ public class UpDownGame {
         System.out.println("現在の賞金 : " + newBetG);
         System.out
             .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-
         continuance = Continuance.from(input.readLine());
 
         if (continuance == null) {
@@ -197,6 +196,7 @@ public class UpDownGame {
         }
       }
 
+      System.out.println("あなたの選択 : " + continuance);
       return continuance;
     }
 
