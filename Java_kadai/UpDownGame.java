@@ -176,28 +176,28 @@ public class UpDownGame {
      * askContinue()を呼び出し、再起するかどうかを選択できる
      */
     private boolean checkContinue(int prize, BufferedReader input, boolean playerWin) throws IOException {
-      return prize + pocket < gameclearGold && playerWin && askContinue(prize, input);
+      return prize + pocket < gameclearGold && playerWin && (askContinue(prize, input) == Continuance.KEEP);
     }
 
-    private boolean askContinue(int newBetG, BufferedReader input) throws IOException {
-      Continuance continueReply = null;
+    private Continuance askContinue(int newBetG, BufferedReader input) throws IOException {
+      Continuance continuance = null;
 
-      while (continueReply == null) {
+      while (continuance == null) {
         System.out.println("このまま続けますか？");
         System.out.println("現在の賞金 : " + newBetG);
         System.out
             .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
 
-        continueReply = Continuance.from(input.readLine());
+        continuance = Continuance.from(input.readLine());
 
-        if (continueReply == null) {
+        if (continuance == null) {
           System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
               .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
           System.out.println("もう一度入力してください。");
         }
       }
 
-      return continueReply == Continuance.KEEP;
+      return continuance;
     }
 
     private Forecast selectForecast(BufferedReader input) throws IOException {
@@ -247,23 +247,25 @@ public class UpDownGame {
   }
 
   private enum Continuance {
-    STOP("0"), KEEP("1");
+    STOP("0", "NO"), KEEP("1", "YES");
 
     private final String number;
+    private final String message;
 
-    private Continuance(final String number) {
+    private Continuance(final String number, String message) {
       this.number = number;
+      this.message = message;
     }
 
     @Override
     public String toString() {
-      return this.name() + "[" + number + "]";
+      return message + "[" + number + "]";
     }
 
     static Continuance from(String string) {
-      for (Continuance reply : Continuance.values()) {
-        if (string.equals(reply.number)) {
-          return reply;
+      for (Continuance continuance : Continuance.values()) {
+        if (string.equals(continuance.number)) {
+          return continuance;
         }
       }
 
