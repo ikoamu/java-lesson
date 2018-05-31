@@ -176,15 +176,21 @@ public class UpDownGame {
      * askContinue()を呼び出し、再起するかどうかを選択できる
      */
     private boolean checkContinue(int prize, BufferedReader input, boolean playerWin) throws IOException {
-      return prize + pocket < gameclearGold && playerWin && (askContinue(prize, input) == Continuance.KEEP);
+      String message1 = "このまま続けますか？";
+      String message2 = "現在の賞金 : " + prize;
+
+      return prize + pocket < gameclearGold && playerWin
+          && (askContinue(input, message1, message2) == Continuance.KEEP);
     }
 
-    private Continuance askContinue(int newBetG, BufferedReader input) throws IOException {
+    private Continuance askContinue(BufferedReader input, String... preMessages) throws IOException {
       Continuance continuance = null;
 
       while (continuance == null) {
-        System.out.println("このまま続けますか？");
-        System.out.println("現在の賞金 : " + newBetG);
+        for (String message : preMessages) {
+          System.out.println(message);
+        }
+
         System.out
             .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
         continuance = Continuance.from(input.readLine());
@@ -271,7 +277,6 @@ public class UpDownGame {
 
       return null;
     }
-
   }
 
   private enum Forecast {
