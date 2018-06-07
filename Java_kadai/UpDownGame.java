@@ -145,7 +145,7 @@ public class UpDownGame {
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
       System.out.println("はじめの数字は" + firstNumber + "です");
 
-      Forecast answer = new SelectForecast().ask(input);
+      Forecast answer = new ForecastSelector().ask(input);
 
       int secondNumber = random.nextInt(13) + 1; // 2回目の数字
       System.out.println("2回目の数字は" + secondNumber + "でした");
@@ -178,7 +178,7 @@ public class UpDownGame {
       String message2 = "現在の賞金 : " + prize;
 
       return prize + pocket < gameclearGold && playerWin
-          && (new SelectContinuance().ask(input, message1, message2) == Continuance.KEEP);
+          && (new ContinuanceSelector().ask(input, message1, message2) == Continuance.KEEP);
     }
   }
 
@@ -208,7 +208,7 @@ public class UpDownGame {
     }
   }
 
-  private class SelectContinuance {
+  private class ContinuanceSelector {
     private Continuance ask(BufferedReader input, String... preMessages) throws IOException {
       UserSelect continuance = null;
 
@@ -217,9 +217,8 @@ public class UpDownGame {
           System.out.println(message);
         }
 
-        System.out
-            .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-        continuance = Continuance.from(input.readLine());
+        System.out.print(Stream.of(this.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+        continuance = this.from(input.readLine());
 
         if (continuance == null) {
           System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
@@ -229,11 +228,19 @@ public class UpDownGame {
       }
 
       System.out.println("あなたの選択 : " + continuance);
-      return (Continuance)continuance;
+      return (Continuance) continuance;
+    }
+
+    private UserSelect[] values() {
+      return (UserSelect[]) Continuance.values();
+    }
+
+    private UserSelect from(String string) {
+      return (UserSelect) Continuance.from(string);
     }
   }
 
-  private class SelectForecast {
+  private class ForecastSelector {
     Forecast ask(BufferedReader input, String... preMessages) throws IOException {
       UserSelect answer = null;
 
@@ -242,9 +249,8 @@ public class UpDownGame {
           System.out.println(message);
         }
 
-        System.out
-            .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-        answer = Forecast.from(input.readLine());
+        System.out.print(Stream.of(this.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+        answer = this.from(input.readLine());
 
         if (answer == null) {
           System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
@@ -254,7 +260,15 @@ public class UpDownGame {
       }
 
       System.out.println("あなたの選択 : " + answer);
-      return (Forecast)answer;
+      return (Forecast) answer;
+    }
+
+    private UserSelect[] values() {
+      return (UserSelect[]) Forecast.values();
+    }
+
+    private UserSelect from(String string) {
+      return (UserSelect) Forecast.from(string);
     }
   }
 
