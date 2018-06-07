@@ -250,7 +250,7 @@ public class UpDownGame {
     }
   }
 
-  private enum Continuance {
+  private enum Continuance implements UserSelect {
     STOP("0", "NO"), KEEP("1", "YES");
 
     private final String number;
@@ -277,7 +277,7 @@ public class UpDownGame {
     }
   }
 
-  private enum Forecast {
+  private enum Forecast implements UserSelect {
     DOWN("0") {
       @Override
       int checkAnswer(int bet, int firstNumber, int secondNumber) {
