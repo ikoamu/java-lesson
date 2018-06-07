@@ -145,7 +145,7 @@ public class UpDownGame {
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
       System.out.println("はじめの数字は" + firstNumber + "です");
 
-      Forecast answer = selectForecast(input);
+      Forecast answer = selectForecast.ask(input);
 
       int secondNumber = random.nextInt(13) + 1; // 2回目の数字
       System.out.println("2回目の数字は" + secondNumber + "でした");
@@ -178,53 +178,7 @@ public class UpDownGame {
       String message2 = "現在の賞金 : " + prize;
 
       return prize + pocket < gameclearGold && playerWin
-          && (askContinue(input, message1, message2) == Continuance.KEEP);
-    }
-
-    private Continuance askContinue(BufferedReader input, String... preMessages) throws IOException {
-      Continuance continuance = null;
-
-      while (continuance == null) {
-        for (String message : preMessages) {
-          System.out.println(message);
-        }
-
-        System.out
-            .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-        continuance = Continuance.from(input.readLine());
-
-        if (continuance == null) {
-          System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
-              .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
-          System.out.println("もう一度入力してください。");
-        }
-      }
-
-      System.out.println("あなたの選択 : " + continuance);
-      return continuance;
-    }
-
-    private Forecast selectForecast(BufferedReader input, String... preMessages) throws IOException {
-      Forecast answer = null;
-
-      while (answer == null) {
-        for (String message : preMessages) {
-          System.out.println(message);
-        }
-        
-        System.out
-            .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-        answer = Forecast.from(input.readLine());
-
-        if (answer == null) {
-          System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
-              .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
-          System.out.println("もう一度入力してください。");
-        }
-      }
-
-      System.out.println("あなたの選択 : " + answer);
-      return answer;
+          && (selectContinuance.ask(input, message1, message2) == Continuance.KEEP);
     }
   }
 
@@ -251,6 +205,56 @@ public class UpDownGame {
 
     private boolean isWin() {
       return playerWin;
+    }
+  }
+
+  private static class selectContinuance {
+    static private Continuance ask(BufferedReader input, String... preMessages) throws IOException {
+      Continuance continuance = null;
+
+      while (continuance == null) {
+        for (String message : preMessages) {
+          System.out.println(message);
+        }
+
+        System.out
+            .print(Stream.of(Continuance.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+        continuance = Continuance.from(input.readLine());
+
+        if (continuance == null) {
+          System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
+              .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
+          System.out.println("もう一度入力してください。");
+        }
+      }
+
+      System.out.println("あなたの選択 : " + continuance);
+      return continuance;
+    }
+  }
+
+  private static class selectForecast {
+    static Forecast ask(BufferedReader input, String... preMessages) throws IOException {
+      Forecast answer = null;
+
+      while (answer == null) {
+        for (String message : preMessages) {
+          System.out.println(message);
+        }
+
+        System.out
+            .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+        answer = Forecast.from(input.readLine());
+
+        if (answer == null) {
+          System.out.println(Stream.of(Forecast.values()).map(f -> f.getNumber())
+              .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
+          System.out.println("もう一度入力してください。");
+        }
+      }
+
+      System.out.println("あなたの選択 : " + answer);
+      return answer;
     }
   }
 
@@ -314,6 +318,10 @@ public class UpDownGame {
     @Override
     public String toString() {
       return this.name() + "[" + number + "]";
+    }
+
+    public String getNumber() {
+      return number;
     }
 
     static Forecast from(String string) {
