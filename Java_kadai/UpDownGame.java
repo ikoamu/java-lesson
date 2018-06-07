@@ -247,7 +247,7 @@ public class UpDownGame {
         answer = Forecast.from(input.readLine());
 
         if (answer == null) {
-          System.out.println(Stream.of(Forecast.values()).map(f -> f.getNumber())
+          System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
               .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
           System.out.println("もう一度入力してください。");
         }
@@ -318,10 +318,6 @@ public class UpDownGame {
     @Override
     public String toString() {
       return this.name() + "[" + number + "]";
-    }
-
-    public String getNumber() {
-      return number;
     }
 
     static Forecast from(String string) {
