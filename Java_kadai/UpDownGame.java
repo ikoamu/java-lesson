@@ -232,11 +232,11 @@ public class UpDownGame {
     }
 
     private UserSelect[] values() {
-      return (UserSelect[]) Continuance.values();
+      return Continuance.values();
     }
 
     private UserSelect from(String string) {
-      return (UserSelect) Continuance.from(string);
+      return Continuance.from(string);
     }
   }
 
@@ -264,11 +264,11 @@ public class UpDownGame {
     }
 
     private UserSelect[] values() {
-      return (UserSelect[]) Forecast.values();
+      return Forecast.values();
     }
 
     private UserSelect from(String string) {
-      return (UserSelect) Forecast.from(string);
+      return Forecast.from(string);
     }
   }
 
