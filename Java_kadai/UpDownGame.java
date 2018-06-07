@@ -204,7 +204,7 @@ public class UpDownGame {
       return continuance;
     }
 
-    private Forecast selectForecast(BufferedReader input) throws IOException {
+    private Forecast selectForecast(BufferedReader input, String... preMessage) throws IOException {
       Forecast answer = null;
 
       while (answer == null) {
