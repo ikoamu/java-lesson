@@ -210,7 +210,7 @@ public class UpDownGame {
 
   private class SelectContinuance {
     private Continuance ask(BufferedReader input, String... preMessages) throws IOException {
-      Continuance continuance = null;
+      UserSelect continuance = null;
 
       while (continuance == null) {
         for (String message : preMessages) {
@@ -229,13 +229,13 @@ public class UpDownGame {
       }
 
       System.out.println("あなたの選択 : " + continuance);
-      return continuance;
+      return (Continuance)continuance;
     }
   }
 
   private class SelectForecast {
     Forecast ask(BufferedReader input, String... preMessages) throws IOException {
-      Forecast answer = null;
+      UserSelect answer = null;
 
       while (answer == null) {
         for (String message : preMessages) {
@@ -254,7 +254,7 @@ public class UpDownGame {
       }
 
       System.out.println("あなたの選択 : " + answer);
-      return answer;
+      return (Forecast)answer;
     }
   }
 
