@@ -204,10 +204,14 @@ public class UpDownGame {
       return continuance;
     }
 
-    private Forecast selectForecast(BufferedReader input, String... preMessage) throws IOException {
+    private Forecast selectForecast(BufferedReader input, String... preMessages) throws IOException {
       Forecast answer = null;
 
       while (answer == null) {
+        for (String message : preMessages) {
+          System.out.println(message);
+        }
+        
         System.out
             .print(Stream.of(Forecast.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
         answer = Forecast.from(input.readLine());
