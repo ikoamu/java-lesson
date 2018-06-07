@@ -106,11 +106,9 @@ public class UpDownGame {
   /**
    * ベット額を決めるメソッド
    * 
-   * @param pocket
-   *          : 現在の所持金
    * @param input
    *          : コンソール入力用BufferedReader
-   * @return bet : ベット額
+   * @return ベット額
    * @throws IOException
    *           : 整数以外の値を入力した場合
    */
