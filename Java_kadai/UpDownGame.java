@@ -145,7 +145,7 @@ public class UpDownGame {
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
       System.out.println("はじめの数字は" + firstNumber + "です");
 
-      Forecast answer = selectForecast.ask(input);
+      Forecast answer = SelectForecast.ask(input);
 
       int secondNumber = random.nextInt(13) + 1; // 2回目の数字
       System.out.println("2回目の数字は" + secondNumber + "でした");
@@ -178,7 +178,7 @@ public class UpDownGame {
       String message2 = "現在の賞金 : " + prize;
 
       return prize + pocket < gameclearGold && playerWin
-          && (selectContinuance.ask(input, message1, message2) == Continuance.KEEP);
+          && (SelectContinuance.ask(input, message1, message2) == Continuance.KEEP);
     }
   }
 
@@ -208,7 +208,7 @@ public class UpDownGame {
     }
   }
 
-  private static class selectContinuance {
+  private static class SelectContinuance {
     static private Continuance ask(BufferedReader input, String... preMessages) throws IOException {
       Continuance continuance = null;
 
@@ -233,7 +233,7 @@ public class UpDownGame {
     }
   }
 
-  private static class selectForecast {
+  private static class SelectForecast {
     static Forecast ask(BufferedReader input, String... preMessages) throws IOException {
       Forecast answer = null;
 
