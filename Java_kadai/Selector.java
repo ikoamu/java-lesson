@@ -7,25 +7,25 @@ import java.util.stream.Stream;
 
 abstract class Selector {
   UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
-    UserSelect continuance = null;
+    UserSelect userSelect = null;
 
-    while (continuance == null) {
+    while (userSelect == null) {
       for (String message : preMessages) {
         System.out.println(message);
       }
 
       System.out.print(Stream.of(values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-      continuance = from(input.readLine());
+      userSelect = from(input.readLine());
 
-      if (continuance == null) {
+      if (userSelect == null) {
         System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
             .collect(Collectors.joining(", ", "!!", "のいずれかの数字を入力してください。!!")));
         System.out.println("もう一度入力してください。");
       }
     }
 
-    System.out.println("あなたの選択 : " + continuance);
-    return continuance;
+    System.out.println("あなたの選択 : " + userSelect);
+    return userSelect;
   }
 
   abstract UserSelect[] values();
