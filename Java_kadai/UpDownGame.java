@@ -208,8 +208,17 @@ public class UpDownGame {
     }
   }
 
-  private class ContinuanceSelector {
-    private UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
+  abstract class Selector {
+    abstract UserSelect ask(BufferedReader input, String... preMessages) throws IOException;
+
+    abstract UserSelect[] values();
+
+    abstract UserSelect from(String string);
+  }
+
+  private class ContinuanceSelector extends Selector {
+    @Override
+    UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
       UserSelect continuance = null;
 
       while (continuance == null) {
@@ -231,16 +240,19 @@ public class UpDownGame {
       return continuance;
     }
 
-    private UserSelect[] values() {
+    @Override
+    UserSelect[] values() {
       return Continuance.values();
     }
 
-    private UserSelect from(String string) {
+    @Override
+    UserSelect from(String string) {
       return Continuance.from(string);
     }
   }
 
-  private class ForecastSelector {
+  private class ForecastSelector extends Selector {
+    @Override
     UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
       UserSelect answer = null;
 
@@ -263,11 +275,13 @@ public class UpDownGame {
       return answer;
     }
 
-    private UserSelect[] values() {
+    @Override
+    UserSelect[] values() {
       return Forecast.values();
     }
 
-    private UserSelect from(String string) {
+    @Override
+    UserSelect from(String string) {
       return Forecast.from(string);
     }
   }
