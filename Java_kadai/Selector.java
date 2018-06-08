@@ -15,7 +15,7 @@ abstract class Selector<T extends UserSelect> {
       }
 
       System.out.print(Stream.of(values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-      userSelect = (T) from(input.readLine());
+      userSelect = from(input.readLine());
 
       if (userSelect == null) {
         System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
@@ -30,7 +30,7 @@ abstract class Selector<T extends UserSelect> {
 
   abstract UserSelect[] values();
 
-  abstract UserSelect from(String string);
+  abstract T from(String string);
 }
 
 class ContinuanceSelector extends Selector<Continuance> {
@@ -40,7 +40,7 @@ class ContinuanceSelector extends Selector<Continuance> {
   }
 
   @Override
-  UserSelect from(String string) {
+  Continuance from(String string) {
     return Continuance.from(string);
   }
 }
@@ -52,7 +52,7 @@ class ForecastSelector extends Selector<Forecast> {
   }
 
   @Override
-  UserSelect from(String string) {
+  Forecast from(String string) {
     return Forecast.from(string);
   }
 }
