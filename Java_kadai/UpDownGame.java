@@ -143,7 +143,7 @@ public class UpDownGame {
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
       System.out.println("はじめの数字は" + firstNumber + "です");
 
-      Forecast answer = (Forecast) new ForecastSelector().ask(input);
+      Forecast answer = new ForecastSelector().ask(input);
 
       int secondNumber = random.nextInt(13) + 1; // 2回目の数字
       System.out.println("2回目の数字は" + secondNumber + "でした");
@@ -176,7 +176,7 @@ public class UpDownGame {
       String message2 = "現在の賞金 : " + prize;
 
       return prize + pocket < gameclearGold && playerWin
-          && ((Continuance) (new ContinuanceSelector().ask(input, message1, message2)) == Continuance.KEEP);
+          && ((new ContinuanceSelector().ask(input, message1, message2)) == Continuance.KEEP);
     }
   }
 

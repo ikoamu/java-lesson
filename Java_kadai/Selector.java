@@ -5,9 +5,9 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-abstract class Selector {
-  UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
-    UserSelect userSelect = null;
+abstract class Selector <T extends UserSelect> {
+  T ask(BufferedReader input, String... preMessages) throws IOException {
+    T userSelect = null;
 
     while (userSelect == null) {
       for (String message : preMessages) {
@@ -15,7 +15,7 @@ abstract class Selector {
       }
 
       System.out.print(Stream.of(values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-      userSelect = from(input.readLine());
+      userSelect = (T) from(input.readLine());
 
       if (userSelect == null) {
         System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
@@ -33,7 +33,7 @@ abstract class Selector {
   abstract UserSelect from(String string);
 }
 
-class ContinuanceSelector extends Selector {
+class ContinuanceSelector extends Selector <Continuance> {
   @Override
   UserSelect[] values() {
     return Continuance.values();
@@ -45,7 +45,7 @@ class ContinuanceSelector extends Selector {
   }
 }
 
-class ForecastSelector extends Selector {
+class ForecastSelector extends Selector<Forecast> {
   @Override
   UserSelect[] values() {
     return Forecast.values();
