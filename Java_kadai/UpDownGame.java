@@ -145,7 +145,7 @@ public class UpDownGame {
       int firstNumber = random.nextInt(13) + 1; // はじめの数字
       System.out.println("はじめの数字は" + firstNumber + "です");
 
-      Forecast answer = new ForecastSelector().ask(input);
+      Forecast answer = (Forecast) new ForecastSelector().ask(input);
 
       int secondNumber = random.nextInt(13) + 1; // 2回目の数字
       System.out.println("2回目の数字は" + secondNumber + "でした");
@@ -178,7 +178,7 @@ public class UpDownGame {
       String message2 = "現在の賞金 : " + prize;
 
       return prize + pocket < gameclearGold && playerWin
-          && (new ContinuanceSelector().ask(input, message1, message2) == Continuance.KEEP);
+          && ((Continuance) (new ContinuanceSelector().ask(input, message1, message2)) == Continuance.KEEP);
     }
   }
 
@@ -209,7 +209,7 @@ public class UpDownGame {
   }
 
   private class ContinuanceSelector {
-    private Continuance ask(BufferedReader input, String... preMessages) throws IOException {
+    private UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
       UserSelect continuance = null;
 
       while (continuance == null) {
@@ -228,7 +228,7 @@ public class UpDownGame {
       }
 
       System.out.println("あなたの選択 : " + continuance);
-      return (Continuance) continuance;
+      return continuance;
     }
 
     private UserSelect[] values() {
@@ -241,7 +241,7 @@ public class UpDownGame {
   }
 
   private class ForecastSelector {
-    Forecast ask(BufferedReader input, String... preMessages) throws IOException {
+    UserSelect ask(BufferedReader input, String... preMessages) throws IOException {
       UserSelect answer = null;
 
       while (answer == null) {
@@ -260,7 +260,7 @@ public class UpDownGame {
       }
 
       System.out.println("あなたの選択 : " + answer);
-      return (Forecast) answer;
+      return answer;
     }
 
     private UserSelect[] values() {
