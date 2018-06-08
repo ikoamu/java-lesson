@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-abstract class Selector <T extends UserSelect> {
+abstract class Selector<T extends UserSelect> {
   T ask(BufferedReader input, String... preMessages) throws IOException {
     T userSelect = null;
 
@@ -33,7 +33,7 @@ abstract class Selector <T extends UserSelect> {
   abstract UserSelect from(String string);
 }
 
-class ContinuanceSelector extends Selector <Continuance> {
+class ContinuanceSelector extends Selector<Continuance> {
   @Override
   UserSelect[] values() {
     return Continuance.values();
