@@ -217,8 +217,8 @@ public class UpDownGame {
           System.out.println(message);
         }
 
-        System.out.print(Stream.of(this.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-        continuance = this.from(input.readLine());
+        System.out.print(Stream.of(values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+        continuance = from(input.readLine());
 
         if (continuance == null) {
           System.out.println(Stream.of(Continuance.values()).map(r -> r.number)
@@ -249,8 +249,8 @@ public class UpDownGame {
           System.out.println(message);
         }
 
-        System.out.print(Stream.of(this.values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
-        answer = this.from(input.readLine());
+        System.out.print(Stream.of(values()).map(String::valueOf).collect(Collectors.joining(" ", " ", " : ")));
+        answer = from(input.readLine());
 
         if (answer == null) {
           System.out.println(Stream.of(Forecast.values()).map(f -> f.number)
